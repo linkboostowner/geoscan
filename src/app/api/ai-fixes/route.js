@@ -4,7 +4,10 @@ export async function POST(request) {
   try {
     const { url, results } = await request.json();
     const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
-    const OPENROUTER_BASE_URL = 'https://openrouter.ai/api/v1';
+    
+    if (!OPENROUTER_API_KEY) {
+      throw new Error('OpenRouter API key is missing');
+    }
     
     const prompt = `The user scanned ${url} and got these results: ${JSON.stringify(results)}. Based on the issues found, generate the following files:
 1. A corrected robots.txt that allows ChatGPT, Perplexity, and Google-Extended.
@@ -12,12 +15,12 @@ export async function POST(request) {
 3. A JSON-LD Schema.org snippet for a typical SaaS/website.
 Return ONLY a valid JSON object with keys: "robots", "llms", "schema". Each value should be the complete file content as a string. Do not include any markdown or extra text.`;
 
-    const response = await fetch(`${OPENROUTER_BASE_URL}/chat/completions`, {
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-        'HTTP-Referer': 'https://geoscan-alpha.vercel.app',
+        'HTTP-Referer': process.env.NEXT_PUBLIC_SITE_URL || 'https://geoscan-alpha.vercel.app',
         'X-Title': 'GeoScan',
       },
       body: JSON.stringify({
@@ -33,8 +36,13 @@ Return ONLY a valid JSON object with keys: "robots", "llms", "schema". Each valu
     }
 
     const data = await response.json();
-    let content = data.choices?.[0]?.message?.content || '{}';
-    content = content.replace(/^```json\s*/i, '').replace(/\s*```$/i, '').trim();
+    let content = data.choices?.[0]?.message?.content || '';
+    
+    // Извлекаем JSON из возможного текста
+    const jsonMatch = content.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      content = jsonMatch[0];
+    }
     
     const parsed = JSON.parse(content);
     return NextResponse.json(parsed);
