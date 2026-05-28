@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabaseClient';
 import {
   Scan, Zap, Shield, FileText, FolderTree, Tag, Share2, Code,
   History, LogOut, Mail, ChevronRight, Check, AlertTriangle, X, Sparkles,
-  MapPin, ArrowRight, Loader2, MessageSquare, Wand2, Copy, Download
+  MapPin, ArrowRight, Loader2, MessageSquare, Wand2, Copy, Download, Swords
 } from 'lucide-react';
 
 const statusColors = {
@@ -55,6 +55,11 @@ export default function Home() {
   const [fixesOpen, setFixesOpen] = useState(false);
   const [fixesLoading, setFixesLoading] = useState(false);
   const [fixesData, setFixesData] = useState(null);
+  // Compare states
+  const [compareOpen, setCompareOpen] = useState(false);
+  const [competitors, setCompetitors] = useState(['', '', '']);
+  const [compareResults, setCompareResults] = useState(null);
+  const [compareLoading, setCompareLoading] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -133,6 +138,7 @@ export default function Home() {
     setLoading(true);
     setError('');
     setResults(null);
+    setCompareResults(null); // сбрасываем предыдущее сравнение
     try {
       const res = await fetch('/api/scan', {
         method: 'POST',
@@ -187,10 +193,8 @@ export default function Home() {
   const handleExportPDF = () => {
     if (!results) return;
     const doc = new jsPDF();
-
     const primaryColor = '#1e3a5f';
     const accentColor = '#10b981';
-    const lightGray = '#f1f5f9';
     const darkText = '#0f172a';
     const mediumText = '#475569';
 
@@ -355,6 +359,25 @@ export default function Home() {
       alert('Error generating fixes: ' + err.message);
     } finally {
       setFixesLoading(false);
+    }
+  };
+
+  const handleCompare = async () => {
+    const validUrls = competitors.filter(c => c.trim() !== '');
+    if (validUrls.length === 0) return;
+    setCompareLoading(true);
+    try {
+      const res = await fetch('/api/compare', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ urls: validUrls }),
+      });
+      const data = await res.json();
+      setCompareResults(data.results);
+    } catch (err) {
+      alert('Comparison failed: ' + err.message);
+    } finally {
+      setCompareLoading(false);
     }
   };
 
@@ -641,6 +664,13 @@ export default function Home() {
                       <Wand2 className="w-4 h-4" /> AI-исправления (PRO)
                     </button>
                   )}
+                  {/* Кнопка сравнения с конкурентами */}
+                  <button
+                    onClick={() => setCompareOpen(true)}
+                    className="px-5 py-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl transition-all flex items-center gap-2"
+                  >
+                    <Swords className="w-4 h-4" /> Сравнить с конкурентами
+                  </button>
                 </div>
               </div>
             </div>
@@ -703,6 +733,96 @@ export default function Home() {
             </div>
           </div>
         )}
+
+        {/* Compare Modal */}
+        {compareOpen && (
+          <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50" onClick={() => setCompareOpen(false)}>
+            <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 w-full max-w-4xl max-h-[85vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+              <h3 className="text-xl font-bold mb-4 flex items-center gap-2"><Swords className="w-6 h-6 text-amber-400" /> Сравнение с конкурентами</h3>
+              <p className="text-sm text-slate-400 mb-4">Введите до трёх URL конкурентов, чтобы сравнить их с вашим сайтом.</p>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {competitors.map((comp, i) => (
+                  <input
+                    key={i}
+                    type="url"
+                    placeholder={`Конкурент ${i + 1}`}
+                    className="flex-1 min-w-[200px] px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white outline-none"
+                    value={comp}
+                    onChange={e => {
+                      const newComps = [...competitors];
+                      newComps[i] = e.target.value;
+                      setCompetitors(newComps);
+                    }}
+                  />
+                ))}
+              </div>
+              <div className="flex gap-2 mb-6">
+                <button
+                  onClick={handleCompare}
+                  disabled={compareLoading || !results}
+                  className="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-all disabled:opacity-50 flex items-center gap-2"
+                >
+                  {compareLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Swords className="w-4 h-4" />}
+                  Сравнить
+                </button>
+                <button onClick={() => setCompareOpen(false)} className="px-4 py-2 bg-slate-600 rounded-lg">Закрыть</button>
+              </div>
+              {compareResults && results && (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-sm">
+                    <thead>
+                      <tr className="border-b border-slate-700">
+                        <th className="py-2 px-3">Модуль</th>
+                        <th className="py-2 px-3">Ваш сайт</th>
+                        {Object.keys(compareResults).map(url => (
+                          <th key={url} className="py-2 px-3">{url}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {modules.map(mod => (
+                        <tr key={mod.label} className="border-b border-slate-700">
+                          <td className="py-2 px-3 font-medium">{mod.label}</td>
+                          <td className="py-2 px-3">
+                            <span className={`font-bold ${statusColors[mod.data.status]}`}>
+                              {mod.data.score}/{mod.max}
+                            </span>
+                          </td>
+                          {Object.entries(compareResults).map(([compUrl, compData]) => {
+                            if (!compData) return <td key={compUrl} className="py-2 px-3 text-slate-500">N/A</td>;
+                            const compMod = compData[mod.label.toLowerCase().replace(' ', '_')] || compData[mod.label.toLowerCase().split('.')[0]];
+                            const compScore = compMod ? compMod.score : null;
+                            const isBetter = compScore !== null && compScore > mod.data.score;
+                            const isWorse = compScore !== null && compScore < mod.data.score;
+                            return (
+                              <td key={compUrl} className="py-2 px-3">
+                                {compScore !== null ? (
+                                  <span className={`font-bold ${isBetter ? 'text-emerald-400' : isWorse ? 'text-red-400' : 'text-slate-300'}`}>
+                                    {compScore}/{mod.max}
+                                  </span>
+                                ) : '-'}
+                              </td>
+                            );
+                          })}
+                        </tr>
+                      ))}
+                      <tr className="border-t-2 border-slate-600">
+                        <td className="py-2 px-3 font-bold">GEO Score</td>
+                        <td className="py-2 px-3 font-bold text-emerald-400">{results.totalScore}/100</td>
+                        {Object.entries(compareResults).map(([compUrl, compData]) => (
+                          <td key={compUrl} className="py-2 px-3 font-bold">
+                            {compData ? `${compData.totalScore}/100` : 'N/A'}
+                          </td>
+                        ))}
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
       </div>
     </main>
   );
