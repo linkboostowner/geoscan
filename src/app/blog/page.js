@@ -12,6 +12,12 @@ export default function Blog() {
       date: '2026-05-29',
       excerpt: 'Разбираем частые ошибки в robots.txt, из-за которых ChatGPT и Perplexity не видят ваш сайт.',
     },
+    {
+      slug: 'chto-takoe-llms-txt',
+      title: 'Что такое llms.txt и как его создать: полный гайд',
+      date: '2026-05-29',
+      excerpt: 'Разбираем, что такое llms.txt, зачем он нужен для AI-поисковиков и как правильно создать этот файл для вашего сайта.',
+    },
   ];
 
   return (
