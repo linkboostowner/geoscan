@@ -6,5 +6,6 @@ export default createMiddleware({
 });
 
 export const config = {
-  matcher: ['/((?!api|_next|.*\\..*).*)'],
+  // Матчер, который обрабатывает все пути, кроме API и статических файлов Next.js
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };
