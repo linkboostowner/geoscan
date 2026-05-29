@@ -5,7 +5,7 @@ import { createClient } from '@supabase/supabase-js';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY // добавим позже
+  process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
 export async function POST(request) {
@@ -14,28 +14,36 @@ export async function POST(request) {
   let event;
 
   try {
-    event = stripe.webhooks.constructEvent(
-      body,
-      sig,
-      process.env.STRIPE_WEBHOOK_SECRET // добавим позже
-    );
+    event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET);
   } catch (err) {
     return NextResponse.json({ error: err.message }, { status: 400 });
   }
 
+  // Обработка подписки PRO
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
-    const userId = session.client_reference_id;
-    // Обновим статус подписки в Supabase
-    await supabase.from('profiles').upsert({
-      id: userId,
-      stripe_customer_id: session.customer,
-      subscription_status: 'active',
-      updated_at: new Date(),
-    });
-  } else if (event.type === 'customer.subscription.deleted') {
+    if (session.mode === 'subscription') {
+      const userId = session.client_reference_id;
+      await supabase.from('profiles').upsert({
+        id: userId,
+        stripe_customer_id: session.customer,
+        subscription_status: 'active',
+        updated_at: new Date(),
+      });
+    } else if (session.mode === 'payment' && session.metadata?.type === 'ai_generation') {
+      // Разовая оплата — просто логируем, доступ выдадим через временный токен
+      const userId = session.client_reference_id;
+      await supabase.from('one_time_purchases').insert({
+        user_id: userId,
+        session_id: session.id,
+        url: session.metadata.url,
+        created_at: new Date(),
+      });
+    }
+  }
+
+  if (event.type === 'customer.subscription.deleted') {
     const subscription = event.data.object;
-    // Найдём пользователя по stripe_customer_id и обновим статус
     const { data } = await supabase
       .from('profiles')
       .select('id')

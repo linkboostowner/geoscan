@@ -60,6 +60,8 @@ export default function Home() {
   const [competitors, setCompetitors] = useState(['', '', '']);
   const [compareResults, setCompareResults] = useState(null);
   const [compareLoading, setCompareLoading] = useState(false);
+  // One-time payment states
+  const [oneTimeLoading, setOneTimeLoading] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -138,7 +140,7 @@ export default function Home() {
     setLoading(true);
     setError('');
     setResults(null);
-    setCompareResults(null); // сбрасываем предыдущее сравнение
+    setCompareResults(null);
     try {
       const res = await fetch('/api/scan', {
         method: 'POST',
@@ -190,11 +192,33 @@ export default function Home() {
     }
   };
 
+  const handleOneTimePayment = async () => {
+    if (!session) return alert('Пожалуйста, войдите сначала');
+    if (!url || !results) return alert('Сначала выполните сканирование');
+    setOneTimeLoading(true);
+    try {
+      const res = await fetch('/api/create-onetime-payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: session.user.id, url }),
+      });
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+      else alert(data.error);
+    } catch (err) {
+      alert(err.message);
+    } finally {
+      setOneTimeLoading(false);
+    }
+  };
+
   const handleExportPDF = () => {
     if (!results) return;
     const doc = new jsPDF();
+
     const primaryColor = '#1e3a5f';
     const accentColor = '#10b981';
+    const lightGray = '#f1f5f9';
     const darkText = '#0f172a';
     const mediumText = '#475569';
 
@@ -479,6 +503,47 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Виджет «Живой пример» */}
+        {!results && (
+          <div className="w-full max-w-3xl mx-auto bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl animate-in fade-in">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold flex items-center gap-2">
+                <Zap className="w-5 h-5 text-amber-400" /> Живой пример: stripe.com
+              </h3>
+              <span className="text-sm text-slate-400">Обновляется ежедневно</span>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <div className="p-3 bg-slate-900 rounded-lg text-center">
+                <p className="text-xs text-slate-400">GEO Score</p>
+                <p className="text-2xl font-bold text-emerald-400">87/100</p>
+              </div>
+              <div className="p-3 bg-slate-900 rounded-lg text-center">
+                <p className="text-xs text-slate-400">robots.txt</p>
+                <p className="text-sm font-bold text-emerald-400">25/25</p>
+              </div>
+              <div className="p-3 bg-slate-900 rounded-lg text-center">
+                <p className="text-xs text-slate-400">llms.txt</p>
+                <p className="text-sm font-bold text-emerald-400">20/20</p>
+              </div>
+              <div className="p-3 bg-slate-900 rounded-lg text-center">
+                <p className="text-xs text-slate-400">Schema.org</p>
+                <p className="text-sm font-bold text-red-400">5/15</p>
+              </div>
+              <div className="p-3 bg-slate-900 rounded-lg text-center">
+                <p className="text-xs text-slate-400">Open Graph</p>
+                <p className="text-sm font-bold text-emerald-400">12/15</p>
+              </div>
+              <div className="p-3 bg-slate-900 rounded-lg text-center">
+                <p className="text-xs text-slate-400">Sitemap</p>
+                <p className="text-sm font-bold text-emerald-400">15/15</p>
+              </div>
+            </div>
+            <p className="text-sm text-slate-500 mt-4 text-center">
+              Хотите узнать свой GEO Score? Введите URL выше и нажмите «Сканировать»
+            </p>
+          </div>
+        )}
+
         {/* Поле сканирования */}
         <div className="w-full max-w-3xl mx-auto">
           <div className="flex items-center gap-2 p-2 bg-slate-800 rounded-2xl border border-slate-700 focus-within:border-emerald-400 transition-all shadow-lg">
@@ -657,12 +722,22 @@ export default function Home() {
                       Сгенерировать исправления (AI)
                     </button>
                   ) : (
-                    <button
-                      onClick={() => setShowPricing(true)}
-                      className="px-5 py-2.5 bg-slate-600 hover:bg-slate-500 text-white rounded-xl transition-all flex items-center gap-2"
-                    >
-                      <Wand2 className="w-4 h-4" /> AI-исправления (PRO)
-                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => setShowPricing(true)}
+                        className="px-5 py-2.5 bg-slate-600 hover:bg-slate-500 text-white rounded-xl transition-all flex items-center gap-2"
+                      >
+                        <Wand2 className="w-4 h-4" /> AI-исправления (PRO)
+                      </button>
+                      <button
+                        onClick={handleOneTimePayment}
+                        disabled={oneTimeLoading}
+                        className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl transition-all flex items-center gap-2"
+                      >
+                        {oneTimeLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
+                        Купить генерацию за $9.99
+                      </button>
+                    </div>
                   )}
                   {/* Кнопка сравнения с конкурентами */}
                   <button

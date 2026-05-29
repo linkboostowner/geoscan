@@ -1,0 +1,10 @@
+{
+  "url": "stripe.com",
+  "totalScore": 87,
+  "robots": { "score": 25, "details": "GPTBot, PerplexityBot allowed", "status": "good" },
+  "llms": { "score": 20, "details": "llms.txt present", "status": "good" },
+  "sitemap": { "score": 15, "details": "sitemap.xml accessible", "status": "good" },
+  "meta": { "score": 10, "details": "Title: Stripe", "status": "good" },
+  "openGraph": { "score": 12, "details": "OG tags found", "status": "good" },
+  "schema": { "score": 5, "details": "No JSON-LD", "status": "bad" }
+}
