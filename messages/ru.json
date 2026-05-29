@@ -1,0 +1,77 @@
+{
+  "hero": {
+    "title": "Готов ли ваш сайт к",
+    "subtitle": "AI-поиску?",
+    "description": "ChatGPT, Perplexity и другие AI-поисковики уже дают 30% трафика. Большинство сайтов для них невидимы. Узнайте, где вы находитесь, за 60 секунд.",
+    "freeScans": "3 бесплатных скана/мес",
+    "fast": "Быстро",
+    "pro": "PRO: безлимит + история + PDF"
+  },
+  "scan": {
+    "placeholder": "Введите URL (например, yoursite.com)",
+    "button": "Сканировать",
+    "scanning": "Сканируем..."
+  },
+  "login": {
+    "placeholder": "you@example.com",
+    "button": "Войти",
+    "sending": "Отправка...",
+    "checkEmail": "Проверьте почту! Мы отправили волшебную ссылку."
+  },
+  "upgrade": {
+    "button": "Upgrade",
+    "title": "Обновитесь до PRO",
+    "unlimitedScans": "Безлимитные сканирования",
+    "fullHistory": "Полная история",
+    "pdfExport": "Экспорт PDF",
+    "prioritySupport": "Приоритетная поддержка",
+    "price": "$39/мес",
+    "subscribeButton": "Подписаться через Stripe",
+    "maybeLater": "Может, позже"
+  },
+  "results": {
+    "geoScore": "Ваш GEO Score",
+    "average": "Средний показатель в вашей нише (SaaS): 65%",
+    "improvements": "Требуются улучшения",
+    "onTrack": "Вы на правильном пути!",
+    "exportPdf": "Экспорт PDF",
+    "share": "Поделиться",
+    "aiAssistant": "AI-помощник",
+    "generateFixes": "Сгенерировать исправления (AI)",
+    "aiFixesPro": "AI-исправления (PRO)",
+    "buyGeneration": "Купить генерацию за $9.99",
+    "compareCompetitors": "Сравнить с конкурентами"
+  },
+  "history": {
+    "title": "Недавние сканирования",
+    "noScans": "Пока нет сканирований."
+  },
+  "aiAssistant": {
+    "title": "AI-помощник",
+    "placeholder": "Спросите о вашем отчёте...",
+    "send": "Отправить",
+    "thinking": "Думаю..."
+  },
+  "aiFixes": {
+    "title": "AI-сгенерированные исправления",
+    "copy": "Копировать",
+    "download": "Скачать",
+    "close": "Закрыть"
+  },
+  "compare": {
+    "title": "Сравнение с конкурентами",
+    "description": "Введите до трёх URL конкурентов, чтобы сравнить их с вашим сайтом.",
+    "placeholder": "Конкурент {number}",
+    "compareButton": "Сравнить",
+    "close": "Закрыть",
+    "module": "Модуль",
+    "yourSite": "Ваш сайт",
+    "geoScore": "GEO Score"
+  },
+  "liveExample": {
+    "title": "Живой пример: stripe.com",
+    "updated": "Обновляется ежедневно",
+    "geoScore": "GEO Score",
+    "callToAction": "Хотите узнать свой GEO Score? Введите URL выше и нажмите «Сканировать»"
+  }
+}
