@@ -1,15 +1,16 @@
+import { NextResponse } from 'next/server';
+
 export async function POST(request) {
   try {
     const { url: rawUrl } = await request.json();
     const url = rawUrl.startsWith('http') ? rawUrl : 'https://' + rawUrl;
     const baseUrl = new URL(url).origin;
 
-    // Вспомогательная функция для fetch с таймаутом
     const fetchWithTimeout = (url, timeout = 5000) =>
       fetch(url, { signal: AbortSignal.timeout(timeout) });
 
     const results = {
-      robots: { score: 0, details: '', status: 'pending' },
+      robots: { score: 0, details: '', status: 'pending', crawlers: {} },
       llms: { score: 0, details: '', status: 'pending' },
       sitemap: { score: 0, details: '', status: 'pending' },
       meta: { score: 0, details: '', status: 'pending' },
@@ -18,16 +19,25 @@ export async function POST(request) {
       totalScore: 0,
     };
 
-    // --- 1. robots.txt ---
+    // --- 1. robots.txt (с детекцией AI-краулеров) ---
+    const aiCrawlers = {
+      'GPTBot': 'ChatGPT (OpenAI)',
+      'PerplexityBot': 'Perplexity',
+      'Google-Extended': 'Google AI Overviews',
+      'Claude-Web': 'Claude (Anthropic)',
+    };
+
+    // Инициализируем статусы краулеров как unknown
+    for (const bot of Object.keys(aiCrawlers)) {
+      results.robots.crawlers[bot] = { status: 'unknown', label: aiCrawlers[bot] };
+    }
+
     try {
       const res = await fetchWithTimeout(`${baseUrl}/robots.txt`);
       if (res.ok) {
         const text = await res.text();
         const lines = text.split(/\r?\n/);
         let currentAgent = '';
-        let aiBlocked = false;
-        let aiAllowed = false;
-        let allBlocked = false;
 
         for (let line of lines) {
           line = line.trim().toLowerCase();
@@ -35,33 +45,63 @@ export async function POST(request) {
             currentAgent = line.slice(11).trim();
           } else if (line.startsWith('disallow:') && currentAgent) {
             const path = line.slice(9).trim();
-            if (path === '/' && (currentAgent === '*' || currentAgent.includes('gptbot') || currentAgent.includes('google-extended') || currentAgent.includes('perplexity'))) {
-              aiBlocked = true;
-            }
-            if (path === '/' && currentAgent === '*') {
-              allBlocked = true;
+            if (path === '/') {
+              for (const bot of Object.keys(aiCrawlers)) {
+                if (currentAgent === bot.toLowerCase()) {
+                  results.robots.crawlers[bot].status = 'blocked';
+                }
+              }
+              if (currentAgent === '*') {
+                // Все боты, которые не имеют явного разрешения, блокируются
+                for (const bot of Object.keys(aiCrawlers)) {
+                  if (results.robots.crawlers[bot].status === 'unknown') {
+                    results.robots.crawlers[bot].status = 'blocked';
+                  }
+                }
+              }
             }
           } else if (line.startsWith('allow:') && currentAgent) {
-            if (currentAgent.includes('gptbot') || currentAgent.includes('google-extended')) {
-              aiAllowed = true;
+            const path = line.slice(6).trim();
+            if (path === '/') {
+              for (const bot of Object.keys(aiCrawlers)) {
+                if (currentAgent === bot.toLowerCase()) {
+                  results.robots.crawlers[bot].status = 'allowed';
+                }
+              }
             }
           }
         }
 
-        if (allBlocked && !aiAllowed) {
-          results.robots = { score: 10, details: 'Site blocks all robots (Disallow: /)', status: 'warning' };
-        } else if (aiBlocked) {
-          results.robots = { score: 15, details: 'AI bots are explicitly blocked', status: 'warning' };
-        } else if (aiAllowed) {
-          results.robots = { score: 25, details: 'AI bots are allowed', status: 'good' };
+        // Если нет правил для бота и нет общего запрета — считаем allowed
+        for (const bot of Object.keys(aiCrawlers)) {
+          if (results.robots.crawlers[bot].status === 'unknown') {
+            results.robots.crawlers[bot].status = 'allowed';
+          }
+        }
+
+        const blockedBots = Object.values(results.robots.crawlers).filter(c => c.status === 'blocked').length;
+        if (blockedBots === 0) {
+          results.robots.score = 25;
+          results.robots.details = 'All AI crawlers are allowed';
+          results.robots.status = 'good';
+        } else if (blockedBots < 2) {
+          results.robots.score = 15;
+          results.robots.details = `${blockedBots} AI crawler(s) blocked`;
+          results.robots.status = 'warning';
         } else {
-          results.robots = { score: 20, details: 'No specific AI bot rules found', status: 'ok' };
+          results.robots.score = 5;
+          results.robots.details = `${blockedBots} AI crawlers blocked — site is mostly invisible`;
+          results.robots.status = 'bad';
         }
       } else {
-        results.robots = { score: 5, details: 'robots.txt not found (404)', status: 'bad' };
+        results.robots.score = 5;
+        results.robots.details = 'robots.txt not found (404)';
+        results.robots.status = 'bad';
       }
     } catch {
-      results.robots = { score: 5, details: 'robots.txt fetch error', status: 'bad' };
+      results.robots.score = 5;
+      results.robots.details = 'robots.txt fetch error';
+      results.robots.status = 'bad';
     }
 
     // --- 2. llms.txt ---
@@ -99,12 +139,14 @@ export async function POST(request) {
       if (res.ok) {
         const html = await res.text();
 
-        // Title
         const titleMatch = html.match(/<title>(.*?)<\/title>/i);
         const title = titleMatch ? titleMatch[1] : '';
-        results.meta = { score: title.length > 10 ? 10 : 5, details: title ? `Title: "${title.slice(0, 80)}"` : 'Missing title', status: title ? 'good' : 'bad' };
+        results.meta = {
+          score: title.length > 10 ? 10 : 5,
+          details: title ? `Title: "${title.slice(0, 80)}"` : 'Missing title',
+          status: title ? 'good' : 'bad',
+        };
 
-        // Open Graph
         const ogTitle = html.match(/<meta[^>]+property="og:title"[^>]+content="([^"]*)"/i);
         const ogDesc = html.match(/<meta[^>]+property="og:description"[^>]+content="([^"]*)"/i);
         const ogImage = html.match(/<meta[^>]+property="og:image"[^>]+content="([^"]*)"/i);
@@ -115,7 +157,6 @@ export async function POST(request) {
           status: hasOg ? 'good' : 'bad',
         };
 
-        // Schema.org (JSON-LD)
         const schemaMatch = html.match(/<script[^>]+type="application\/ld\+json"[^>]*>(.*?)<\/script>/i);
         results.schema = {
           score: schemaMatch ? 15 : 5,
@@ -142,8 +183,8 @@ export async function POST(request) {
       results.openGraph.score +
       results.schema.score;
 
-    return Response.json(results);
+    return NextResponse.json(results);
   } catch (err) {
-    return Response.json({ error: err.message }, { status: 500 });
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

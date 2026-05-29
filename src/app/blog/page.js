@@ -18,6 +18,12 @@ export default function Blog() {
       date: '2026-05-29',
       excerpt: 'Разбираем, что такое llms.txt, зачем он нужен для AI-поисковиков и как правильно создать этот файл для вашего сайта.',
     },
+    {
+      slug: 'chto-takoe-geoscan',
+      title: 'Что такое GeoScan и зачем он нужен',
+      date: '2026-05-30',
+      excerpt: 'Узнайте, что такое Generative Engine Optimization и как GeoScan помогает вашему сайту быть видимым для AI-поисковиков.',
+    },
   ];
 
   return (

@@ -23,7 +23,7 @@ const translations = {
     scan: { placeholder: 'Enter URL (e.g. yoursite.com)', button: 'Scan', scanning: 'Scanning...' },
     login: { placeholder: 'you@example.com', button: 'Sign In', sending: 'Sending...', checkEmail: 'Check your email! We sent a magic link.' },
     upgrade: { button: 'Upgrade', title: 'Upgrade to PRO', unlimitedScans: 'Unlimited scans', fullHistory: 'Full history', pdfExport: 'PDF export', prioritySupport: 'Priority support', price: '$39/month', subscribeButton: 'Subscribe with Stripe', maybeLater: 'Maybe later' },
-    results: { geoScore: 'Your GEO Score', average: 'Average in your niche (SaaS): 65%', improvements: 'Improvements needed', onTrack: 'You are on the right track!', exportPdf: 'Export PDF', share: 'Share', aiAssistant: 'AI Assistant', generateFixes: 'Generate Fixes (AI)', aiFixesPro: 'AI Fixes (PRO)', buyGeneration: 'Buy generation for $9.99', compareCompetitors: 'Compare with competitors' },
+    results: { geoScore: 'Your GEO Score', average: 'Average in your niche (SaaS): 65%', improvements: 'Improvements needed', onTrack: 'You are on the right track!', exportPdf: 'Export PDF', share: 'Share', aiAssistant: 'AI Assistant', generateFixes: 'Generate Fixes (AI)', aiFixesPro: 'AI Fixes (PRO)', buyGeneration: 'Buy generation for $9.99', compareCompetitors: 'Compare with competitors', prioritiesTitle: 'Priority Actions', crawlersTitle: 'AI Crawlers Status', allowed: 'Allowed', blocked: 'Blocked', unknown: 'Unknown' },
     history: { title: 'Recent Scans', noScans: 'No scans yet.' },
     aiAssistant: { title: 'AI Assistant', placeholder: 'Ask about your report...', send: 'Send', thinking: 'Thinking...' },
     aiFixes: { title: 'AI-Generated Fixes', copy: 'Copy', download: 'Download', close: 'Close' },
@@ -42,7 +42,7 @@ const translations = {
     scan: { placeholder: 'Введите URL (например, yoursite.com)', button: 'Сканировать', scanning: 'Сканируем...' },
     login: { placeholder: 'you@example.com', button: 'Войти', sending: 'Отправка...', checkEmail: 'Проверьте почту! Мы отправили волшебную ссылку.' },
     upgrade: { button: 'Upgrade', title: 'Обновитесь до PRO', unlimitedScans: 'Безлимитные сканирования', fullHistory: 'Полная история', pdfExport: 'Экспорт PDF', prioritySupport: 'Приоритетная поддержка', price: '$39/мес', subscribeButton: 'Подписаться через Stripe', maybeLater: 'Может, позже' },
-    results: { geoScore: 'Ваш GEO Score', average: 'Средний показатель в вашей нише (SaaS): 65%', improvements: 'Требуются улучшения', onTrack: 'Вы на правильном пути!', exportPdf: 'Экспорт PDF', share: 'Поделиться', aiAssistant: 'AI-помощник', generateFixes: 'Сгенерировать исправления (AI)', aiFixesPro: 'AI-исправления (PRO)', buyGeneration: 'Купить генерацию за $9.99', compareCompetitors: 'Сравнить с конкурентами' },
+    results: { geoScore: 'Ваш GEO Score', average: 'Средний показатель в вашей нише (SaaS): 65%', improvements: 'Требуются улучшения', onTrack: 'Вы на правильном пути!', exportPdf: 'Экспорт PDF', share: 'Поделиться', aiAssistant: 'AI-помощник', generateFixes: 'Сгенерировать исправления (AI)', aiFixesPro: 'AI-исправления (PRO)', buyGeneration: 'Купить генерацию за $9.99', compareCompetitors: 'Сравнить с конкурентами', prioritiesTitle: 'Приоритетные действия', crawlersTitle: 'Статус AI-краулеров', allowed: 'Разрешён', blocked: 'Заблокирован', unknown: 'Неизвестно' },
     history: { title: 'Недавние сканирования', noScans: 'Пока нет сканирований.' },
     aiAssistant: { title: 'AI-помощник', placeholder: 'Спросите о вашем отчёте...', send: 'Отправить', thinking: 'Думаю...' },
     aiFixes: { title: 'AI-сгенерированные исправления', copy: 'Копировать', download: 'Скачать', close: 'Закрыть' },
@@ -99,7 +99,6 @@ export default function Home() {
   const [locale, setLocale] = useState('en');
   const t = translations[locale];
 
-  // Загружаем язык из localStorage при первом рендере
   useEffect(() => {
     const saved = localStorage.getItem('locale');
     if (saved && (saved === 'en' || saved === 'ru')) {
@@ -107,7 +106,6 @@ export default function Home() {
     }
   }, []);
 
-  // Сохраняем язык в localStorage при изменении
   useEffect(() => {
     localStorage.setItem('locale', locale);
   }, [locale]);
@@ -123,21 +121,17 @@ export default function Home() {
   const [showHistory, setShowHistory] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
   const [profile, setProfile] = useState(null);
-  // AI chat states
   const [chatOpen, setChatOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
   const [chatInput, setChatInput] = useState('');
   const [chatLoading, setChatLoading] = useState(false);
-  // AI fixes states
   const [fixesOpen, setFixesOpen] = useState(false);
   const [fixesLoading, setFixesLoading] = useState(false);
   const [fixesData, setFixesData] = useState(null);
-  // Compare states
   const [compareOpen, setCompareOpen] = useState(false);
   const [competitors, setCompetitors] = useState(['', '', '']);
   const [compareResults, setCompareResults] = useState(null);
   const [compareLoading, setCompareLoading] = useState(false);
-  // One-time payment states
   const [oneTimeLoading, setOneTimeLoading] = useState(false);
 
   useEffect(() => {
@@ -409,14 +403,14 @@ export default function Home() {
 
     doc.setFontSize(8);
     doc.setTextColor('#94a3b8');
-    doc.text('Generated by GeoScan • geoscan-alpha.vercel.app', 15, 285);
+    doc.text('Generated by GeoScan • geoscan-a.vercel.app', 15, 285);
 
     doc.save(`geoscan-report-${new Date().toISOString().slice(0, 10)}.pdf`);
   };
 
   const handleShare = () => {
     if (!results) return;
-    const text = `Я только что проверил свой сайт в GeoScan и получил GEO Score ${results.totalScore}/100. Узнай, готов ли твой сайт к AI-поиску: https://geoscan-alpha.vercel.app`;
+    const text = `Я только что проверил свой сайт в GeoScan и получил GEO Score ${results.totalScore}/100. Узнай, готов ли твой сайт к AI-поиску: https://geoscan-a.vercel.app`;
     if (navigator.share) {
       navigator.share({ title: 'GeoScan Report', text });
     } else {
@@ -748,6 +742,65 @@ export default function Home() {
               ))}
             </div>
 
+            {/* LLM Crawlers Status */}
+            {results?.robots?.crawlers && (
+              <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6">
+                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <Shield className="w-5 h-5 text-blue-400" /> {t.results.crawlersTitle || 'Статус AI-краулеров'}
+                </h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  {Object.entries(results.robots.crawlers).map(([bot, info]) => (
+                    <div key={bot} className="p-3 bg-slate-900 rounded-lg text-center">
+                      <p className="text-xs text-slate-400 mb-1">{info.label}</p>
+                      <p className={`text-sm font-bold ${
+                        info.status === 'allowed' ? 'text-emerald-400' :
+                        info.status === 'blocked' ? 'text-red-400' :
+                        'text-amber-400'
+                      }`}>
+                        {info.status === 'allowed' ? `✅ ${t.results.allowed || 'Разрешён'}` :
+                         info.status === 'blocked' ? `❌ ${t.results.blocked || 'Заблокирован'}` :
+                         `❓ ${t.results.unknown || 'Неизвестно'}`}
+                      </p>
+                      <p className="text-xs text-slate-500 mt-1">{bot}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Priorities block (shown when fixesData.priorities exists) */}
+            {fixesData?.priorities && (
+              <div className="p-6 bg-slate-800 border border-slate-700 rounded-2xl space-y-4">
+                <h3 className="text-xl font-semibold flex items-center gap-2">
+                  <AlertTriangle className="w-5 h-5 text-amber-400" /> {t.results.prioritiesTitle}
+                </h3>
+                {fixesData.priorities.critical?.length > 0 && (
+                  <div>
+                    <h4 className="text-sm font-bold text-red-400 mb-1">🔴 Critical</h4>
+                    <ul className="list-disc pl-5 text-sm text-slate-300 space-y-1">
+                      {fixesData.priorities.critical.map((item, i) => <li key={i}>{item}</li>)}
+                    </ul>
+                  </div>
+                )}
+                {fixesData.priorities.important?.length > 0 && (
+                  <div>
+                    <h4 className="text-sm font-bold text-orange-400 mb-1">🟠 Important</h4>
+                    <ul className="list-disc pl-5 text-sm text-slate-300 space-y-1">
+                      {fixesData.priorities.important.map((item, i) => <li key={i}>{item}</li>)}
+                    </ul>
+                  </div>
+                )}
+                {fixesData.priorities.recommended?.length > 0 && (
+                  <div>
+                    <h4 className="text-sm font-bold text-emerald-400 mb-1">🟢 Recommended</h4>
+                    <ul className="list-disc pl-5 text-sm text-slate-300 space-y-1">
+                      {fixesData.priorities.recommended.map((item, i) => <li key={i}>{item}</li>)}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
+
             <div className="p-8 bg-slate-800 border border-slate-700 rounded-2xl text-center space-y-6 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-cyan-500/5" />
               <div className="relative">
@@ -880,6 +933,35 @@ export default function Home() {
                   </div>
                 </div>
               ))}
+              {fixesData.priorities && (
+                <div className="mt-4 p-4 bg-slate-900 rounded-lg">
+                  <h4 className="text-sm font-bold text-amber-400 mb-2">{t.results.prioritiesTitle}</h4>
+                  {fixesData.priorities.critical?.length > 0 && (
+                    <div className="mb-2">
+                      <p className="text-xs font-bold text-red-400">🔴 Critical</p>
+                      <ul className="list-disc pl-4 text-xs text-slate-300">
+                        {fixesData.priorities.critical.map((item, i) => <li key={i}>{item}</li>)}
+                      </ul>
+                    </div>
+                  )}
+                  {fixesData.priorities.important?.length > 0 && (
+                    <div className="mb-2">
+                      <p className="text-xs font-bold text-orange-400">🟠 Important</p>
+                      <ul className="list-disc pl-4 text-xs text-slate-300">
+                        {fixesData.priorities.important.map((item, i) => <li key={i}>{item}</li>)}
+                      </ul>
+                    </div>
+                  )}
+                  {fixesData.priorities.recommended?.length > 0 && (
+                    <div>
+                      <p className="text-xs font-bold text-emerald-400">🟢 Recommended</p>
+                      <ul className="list-disc pl-4 text-xs text-slate-300">
+                        {fixesData.priorities.recommended.map((item, i) => <li key={i}>{item}</li>)}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
               <button onClick={() => setFixesOpen(false)} className="mt-4 px-4 py-2 bg-slate-600 rounded-lg">{t.aiFixes.close}</button>
             </div>
           </div>
