@@ -93,6 +93,8 @@ export default function Home() {
   const [compareLoading, setCompareLoading] = useState(false);
   const [oneTimeLoading, setOneTimeLoading] = useState(false);
   const [faqOpen, setFaqOpen] = useState(null);
+  const [scanDetailsOpen, setScanDetailsOpen] = useState(false);
+  const [scanDetails, setScanDetails] = useState(null);
 
   const faqItems = [
     {
@@ -268,13 +270,13 @@ export default function Home() {
     } catch (err) { alert('Comparison failed: ' + err.message); } finally { setCompareLoading(false); }
   };
 
-  const modules = results ? [
-    { label: 'robots.txt', data: results.robots, max: 25, icon: Shield },
-    { label: 'llms.txt', data: results.llms, max: 20, icon: FileText },
-    { label: 'sitemap.xml', data: results.sitemap, max: 15, icon: FolderTree },
-    { label: 'Meta Title', data: results.meta, max: 10, icon: Tag },
-    { label: 'Open Graph', data: results.openGraph, max: 15, icon: Share2 },
-    { label: 'Schema.org', data: results.schema, max: 15, icon: Code },
+  const modules = (data) => data ? [
+    { label: 'robots.txt', data: data.robots, max: 25, icon: Shield },
+    { label: 'llms.txt', data: data.llms, max: 20, icon: FileText },
+    { label: 'sitemap.xml', data: data.sitemap, max: 15, icon: FolderTree },
+    { label: 'Meta Title', data: data.meta, max: 10, icon: Tag },
+    { label: 'Open Graph', data: data.openGraph, max: 15, icon: Share2 },
+    { label: 'Schema.org', data: data.schema, max: 15, icon: Code },
   ] : [];
 
   return (
@@ -356,9 +358,17 @@ export default function Home() {
           <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 animate-in fade-in slide-in-from-top">
             <h2 className="text-xl font-semibold mb-4 flex items-center gap-2"><History className="w-5 h-5" /> {t.history.title}</h2>
             {history.length === 0 ? <p className="text-slate-400">{t.history.noScans}</p> : (
-              <div className="space-y-2">{history.map(scan => (
-                <div key={scan.id} className="flex justify-between items-center p-3 bg-slate-900 rounded-xl"><div><p className="text-sm font-medium">{scan.url}</p><p className="text-xs text-slate-500">{new Date(scan.created_at).toLocaleString()}</p></div><span className="text-emerald-400 font-bold">{scan.total_score}/100</span></div>
-              ))}</div>
+              <div className="space-y-2">
+                {history.map(scan => (
+                  <div key={scan.id} onClick={() => { setScanDetails(scan.details); setScanDetailsOpen(true); }} className="flex justify-between items-center p-3 bg-slate-900 rounded-xl cursor-pointer hover:bg-slate-700 transition-colors">
+                    <div>
+                      <p className="text-sm font-medium">{scan.url}</p>
+                      <p className="text-xs text-slate-500">{new Date(scan.created_at).toLocaleString()}</p>
+                    </div>
+                    <span className="text-emerald-400 font-bold">{scan.total_score}/100</span>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
         )}
@@ -371,8 +381,8 @@ export default function Home() {
         {results && !loading && (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom">
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {modules.map(mod => (
-                <div key={mod.label} className="group relative p-4 bg-slate-800 border border-slate-700 rounded-xl text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-500/10 hover:border-emerald-500/50">
+              {modules(results).map((mod, idx) => (
+                <div key={idx} className="group relative p-4 bg-slate-800 border border-slate-700 rounded-xl text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-500/10 hover:border-emerald-500/50">
                   <div className="flex justify-center mb-2"><mod.icon className={`w-6 h-6 ${statusColors[mod.data.status] || 'text-white'}`} /></div>
                   <p className="text-sm text-slate-300 mb-1 relative cursor-help" title={moduleInfo[mod.label]}>{mod.label}</p>
                   <p className={`text-xl font-bold ${statusColors[mod.data.status] || 'text-white'}`}>{mod.data.score}/{mod.max}</p>
@@ -403,6 +413,27 @@ export default function Home() {
                   <button onClick={() => setCompareOpen(true)} className="px-5 py-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl transition-all flex items-center gap-2"><Swords className="w-4 h-4" /> {t.results.compareCompetitors}</button>
                 </div>
               </div>
+            </div>
+          </div>
+        )}
+        {scanDetailsOpen && scanDetails && (
+          <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50" onClick={() => setScanDetailsOpen(false)}>
+            <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 w-full max-w-2xl max-h-[85vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+              <h3 className="text-xl font-bold mb-4">{scanDetails.url || 'Saved Report'}</h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+                {modules(scanDetails).map((mod, idx) => (
+                  <div key={idx} className="p-4 bg-slate-900 rounded-xl text-center">
+                    <mod.icon className={`w-6 h-6 mx-auto mb-2 ${statusColors[mod.data.status] || 'text-white'}`} />
+                    <p className="text-sm text-slate-300">{mod.label}</p>
+                    <p className={`text-xl font-bold ${statusColors[mod.data.status] || 'text-white'}`}>{mod.data.score}/{mod.max}</p>
+                    <p className="text-xs text-slate-500 mt-1">{mod.data.details}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="text-center p-4 bg-slate-900 rounded-xl">
+                <p className="text-2xl font-bold text-emerald-400">{scanDetails.totalScore}/100</p>
+              </div>
+              <button onClick={() => setScanDetailsOpen(false)} className="mt-4 px-4 py-2 bg-slate-600 rounded-lg w-full">Close</button>
             </div>
           </div>
         )}
@@ -441,8 +472,8 @@ export default function Home() {
                   <table className="w-full text-left text-sm">
                     <thead><tr className="border-b border-slate-700"><th className="py-2 px-3">{t.compare.module}</th><th className="py-2 px-3">{t.compare.yourSite}</th>{Object.keys(compareResults).map(url => (<th key={url} className="py-2 px-3">{url}</th>))}</tr></thead>
                     <tbody>
-                      {modules.map(mod => (
-                        <tr key={mod.label} className="border-b border-slate-700"><td className="py-2 px-3 font-medium">{mod.label}</td><td className="py-2 px-3"><span className={`font-bold ${statusColors[mod.data.status]}`}>{mod.data.score}/{mod.max}</span></td>
+                      {modules(results).map((mod, idx) => (
+                        <tr key={idx} className="border-b border-slate-700"><td className="py-2 px-3 font-medium">{mod.label}</td><td className="py-2 px-3"><span className={`font-bold ${statusColors[mod.data.status]}`}>{mod.data.score}/{mod.max}</span></td>
                           {Object.entries(compareResults).map(([compUrl, compData]) => { if (!compData) return <td key={compUrl} className="py-2 px-3 text-slate-500">N/A</td>; const compMod = compData[mod.label.toLowerCase().replace(' ', '_')] || compData[mod.label.toLowerCase().split('.')[0]]; const compScore = compMod ? compMod.score : null; const isBetter = compScore !== null && compScore > mod.data.score; const isWorse = compScore !== null && compScore < mod.data.score; return (<td key={compUrl} className="py-2 px-3">{compScore !== null ? (<span className={`font-bold ${isBetter ? 'text-emerald-400' : isWorse ? 'text-red-400' : 'text-slate-300'}`}>{compScore}/{mod.max}</span>) : '-'}</td>); })}
                         </tr>
                       ))}
@@ -454,31 +485,16 @@ export default function Home() {
             </div>
           </div>
         )}
-
-        {/* FAQ Section */}
         <div className="w-full max-w-3xl mx-auto mt-16 pt-8 border-t border-slate-800">
-          <h2 className="text-2xl font-bold mb-6 text-center">
-            {locale === 'ru' ? 'Часто задаваемые вопросы' : 'Frequently Asked Questions'}
-          </h2>
+          <h2 className="text-2xl font-bold mb-6 text-center">{locale === 'ru' ? 'Часто задаваемые вопросы' : 'Frequently Asked Questions'}</h2>
           <div className="space-y-3">
             {faqItems.map((item, index) => (
               <div key={index} className="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden">
-                <button
-                  onClick={() => setFaqOpen(faqOpen === index ? null : index)}
-                  className="w-full flex items-center justify-between p-4 text-left hover:bg-slate-700 transition-colors"
-                >
+                <button onClick={() => setFaqOpen(faqOpen === index ? null : index)} className="w-full flex items-center justify-between p-4 text-left hover:bg-slate-700 transition-colors">
                   <span className="font-medium text-white">{item.question}</span>
-                  <ChevronDown
-                    className={`w-5 h-5 text-slate-400 transition-transform ${
-                      faqOpen === index ? 'rotate-180' : ''
-                    }`}
-                  />
+                  <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform ${faqOpen === index ? 'rotate-180' : ''}`} />
                 </button>
-                {faqOpen === index && (
-                  <div className="px-4 pb-4 text-slate-300 text-sm leading-relaxed">
-                    {item.answer}
-                  </div>
-                )}
+                {faqOpen === index && <div className="px-4 pb-4 text-slate-300 text-sm leading-relaxed">{item.answer}</div>}
               </div>
             ))}
           </div>
