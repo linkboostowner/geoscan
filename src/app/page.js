@@ -7,7 +7,7 @@ import {
   Scan, Zap, Shield, FileText, FolderTree, Tag, Share2, Code,
   History, LogOut, Mail, ChevronRight, Check, AlertTriangle, X, Sparkles,
   MapPin, ArrowRight, Loader2, MessageSquare, Wand2, Copy, Download, Swords,
-  BookOpen, ChevronDown
+  BookOpen, ChevronDown, BarChart3
 } from 'lucide-react';
 
 const translations = {
@@ -285,6 +285,10 @@ export default function Home() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2"><MapPin className="w-8 h-8 text-emerald-400" /><span className="text-2xl font-bold tracking-tight">GeoScan</span></div>
           <div className="flex items-center gap-3">
+            <a href="https://georank-tracker.vercel.app" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl text-sm text-slate-300 transition-all duration-200 flex items-center gap-2">
+              <BarChart3 className="w-4 h-4 text-blue-400" />
+              GeoRank Tracker
+            </a>
             <a href="/blog" title="Blog" className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-all duration-200 hover:scale-110"><BookOpen className="w-4 h-4" /></a>
             <LanguageSwitcher locale={locale} setLocale={setLocale} />
             {!session ? (
