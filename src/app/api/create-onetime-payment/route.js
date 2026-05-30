@@ -21,7 +21,7 @@ export async function POST(request) {
         quantity: 1,
       }],
       mode: 'payment',
-      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/?payment=success&session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/thank-you?type=onetime`,
       cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/?payment=canceled`,
       client_reference_id: userId,
       metadata: { url, type: 'ai_generation' },

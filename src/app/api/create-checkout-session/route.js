@@ -11,7 +11,7 @@ export async function POST(request) {
       payment_method_types: ['card'],
       line_items: [{ price: priceId, quantity: 1 }],
       mode: 'subscription',
-      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/thank-you?type=pro`,
       cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/?canceled=true`,
       client_reference_id: userId,
     });
