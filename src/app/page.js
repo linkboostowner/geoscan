@@ -53,8 +53,8 @@ const moduleInfo = {
 function LanguageSwitcher({ locale, setLocale }) {
   return (
     <div className="flex items-center gap-1">
-      <button onClick={() => setLocale('en')} className={`px-2 py-1 rounded text-xs font-medium ${locale === 'en' ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400'}`}>EN</button>
-      <button onClick={() => setLocale('ru')} className={`px-2 py-1 rounded text-xs font-medium ${locale === 'ru' ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400'}`}>RU</button>
+      <button onClick={() => setLocale('en')} className={`px-2 py-1 rounded text-xs font-medium transition-all duration-200 ${locale === 'en' ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}`}>EN</button>
+      <button onClick={() => setLocale('ru')} className={`px-2 py-1 rounded text-xs font-medium transition-all duration-200 ${locale === 'ru' ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}`}>RU</button>
     </div>
   );
 }
@@ -285,12 +285,12 @@ export default function Home() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2"><MapPin className="w-8 h-8 text-emerald-400" /><span className="text-2xl font-bold tracking-tight">GeoScan</span></div>
           <div className="flex items-center gap-3">
-            <a href="/blog" title="Blog" className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors"><BookOpen className="w-4 h-4" /></a>
+            <a href="/blog" title="Blog" className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-all duration-200 hover:scale-110"><BookOpen className="w-4 h-4" /></a>
             <LanguageSwitcher locale={locale} setLocale={setLocale} />
             {!session ? (
               <div className="flex items-center gap-2">
-                <div className="relative"><Mail className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" /><input type="email" placeholder={t.login.placeholder} className="pl-10 pr-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm outline-none focus:border-emerald-400 transition-colors w-48" value={email} onChange={(e) => setEmail(e.target.value)} /></div>
-                <button onClick={handleSendLink} disabled={authLoading} className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-xl transition-all disabled:opacity-50 flex items-center gap-1">{authLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Mail className="w-4 h-4" />}{authLoading ? t.login.sending : t.login.button}</button>
+                <div className="relative"><Mail className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" /><input type="email" placeholder={t.login.placeholder} className="pl-10 pr-4 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm outline-none focus:border-emerald-400 transition-all duration-200 w-48" value={email} onChange={(e) => setEmail(e.target.value)} /></div>
+                <button onClick={handleSendLink} disabled={authLoading} className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-xl transition-all duration-200 disabled:opacity-50 flex items-center gap-1 hover:shadow-lg hover:shadow-emerald-500/20">{authLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Mail className="w-4 h-4" />}{authLoading ? t.login.sending : t.login.button}</button>
               </div>
             ) : (
               <div className="flex items-center gap-3">
@@ -298,10 +298,10 @@ export default function Home() {
                 {profile?.subscription_status === 'active' ? (
                   <span className="flex items-center gap-1 px-3 py-1 bg-emerald-500/20 text-emerald-400 rounded-full text-xs font-bold"><Sparkles className="w-3 h-3" /> PRO</span>
                 ) : (
-                  <button onClick={() => setShowPricing(true)} className="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-xl transition-all">{t.upgrade.button}</button>
+                  <button onClick={() => setShowPricing(true)} className="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-xl transition-all duration-200 hover:shadow-lg hover:shadow-emerald-500/20">{t.upgrade.button}</button>
                 )}
-                <button onClick={() => setShowHistory(!showHistory)} className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors" title={t.history.title}><History className="w-4 h-4" /></button>
-                <button onClick={handleLogout} className="p-2 rounded-xl bg-slate-800 hover:bg-red-800 text-slate-300 transition-colors" title="Выйти"><LogOut className="w-4 h-4" /></button>
+                <button onClick={() => setShowHistory(!showHistory)} className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-all duration-200 hover:scale-110" title={t.history.title}><History className="w-4 h-4" /></button>
+                <button onClick={handleLogout} className="p-2 rounded-xl bg-slate-800 hover:bg-red-800 text-slate-300 transition-all duration-200 hover:scale-110" title="Выйти"><LogOut className="w-4 h-4" /></button>
               </div>
             )}
           </div>
@@ -315,29 +315,29 @@ export default function Home() {
           </div>
         </div>
         {!results && (
-          <div className="w-full max-w-3xl mx-auto bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl animate-in fade-in">
+          <div className="w-full max-w-3xl mx-auto bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl animate-in fade-in transition-all duration-300 hover:border-emerald-500/50">
             <div className="flex items-center justify-between mb-4"><h3 className="text-lg font-semibold flex items-center gap-2"><Zap className="w-5 h-5 text-amber-400" /> {t.liveExample.title}</h3><span className="text-sm text-slate-400">{t.liveExample.updated}</span></div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              <div className="p-3 bg-slate-900 rounded-lg text-center"><p className="text-xs text-slate-400">{t.liveExample.geoScore}</p><p className="text-2xl font-bold text-emerald-400">87/100</p></div>
-              <div className="p-3 bg-slate-900 rounded-lg text-center"><p className="text-xs text-slate-400">robots.txt</p><p className="text-sm font-bold text-emerald-400">25/25</p></div>
-              <div className="p-3 bg-slate-900 rounded-lg text-center"><p className="text-xs text-slate-400">llms.txt</p><p className="text-sm font-bold text-emerald-400">20/20</p></div>
-              <div className="p-3 bg-slate-900 rounded-lg text-center"><p className="text-xs text-slate-400">Schema.org</p><p className="text-sm font-bold text-red-400">5/15</p></div>
-              <div className="p-3 bg-slate-900 rounded-lg text-center"><p className="text-xs text-slate-400">Open Graph</p><p className="text-sm font-bold text-emerald-400">12/15</p></div>
-              <div className="p-3 bg-slate-900 rounded-lg text-center"><p className="text-xs text-slate-400">Sitemap</p><p className="text-sm font-bold text-emerald-400">15/15</p></div>
+              <div className="p-3 bg-slate-900 rounded-lg text-center transition-all duration-200 hover:scale-105"><p className="text-xs text-slate-400">{t.liveExample.geoScore}</p><p className="text-2xl font-bold text-emerald-400">87/100</p></div>
+              <div className="p-3 bg-slate-900 rounded-lg text-center transition-all duration-200 hover:scale-105"><p className="text-xs text-slate-400">robots.txt</p><p className="text-sm font-bold text-emerald-400">25/25</p></div>
+              <div className="p-3 bg-slate-900 rounded-lg text-center transition-all duration-200 hover:scale-105"><p className="text-xs text-slate-400">llms.txt</p><p className="text-sm font-bold text-emerald-400">20/20</p></div>
+              <div className="p-3 bg-slate-900 rounded-lg text-center transition-all duration-200 hover:scale-105"><p className="text-xs text-slate-400">Schema.org</p><p className="text-sm font-bold text-red-400">5/15</p></div>
+              <div className="p-3 bg-slate-900 rounded-lg text-center transition-all duration-200 hover:scale-105"><p className="text-xs text-slate-400">Open Graph</p><p className="text-sm font-bold text-emerald-400">12/15</p></div>
+              <div className="p-3 bg-slate-900 rounded-lg text-center transition-all duration-200 hover:scale-105"><p className="text-xs text-slate-400">Sitemap</p><p className="text-sm font-bold text-emerald-400">15/15</p></div>
             </div>
             <p className="text-sm text-slate-500 mt-4 text-center">{t.liveExample.callToAction}</p>
           </div>
         )}
         <div className="w-full max-w-3xl mx-auto">
-          <div className="flex items-center gap-2 p-2 bg-slate-800 rounded-2xl border border-slate-700 focus-within:border-emerald-400 transition-all shadow-lg">
+          <div className="flex items-center gap-2 p-2 bg-slate-800 rounded-2xl border border-slate-700 focus-within:border-emerald-400 transition-all duration-300 shadow-lg">
             <input type="url" placeholder={t.scan.placeholder} className="flex-1 bg-transparent px-4 py-3 text-white placeholder-slate-400 outline-none" value={url} onChange={(e) => setUrl(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleScan()} />
-            <button onClick={handleScan} disabled={loading} className="px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded-xl transition-all disabled:opacity-50 flex items-center gap-2">{loading ? <><Loader2 className="w-5 h-5 animate-spin" />{t.scan.scanning}</> : <><Scan className="w-5 h-5" />{t.scan.button}</>}</button>
+            <button onClick={handleScan} disabled={loading} className="px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded-xl transition-all duration-300 disabled:opacity-50 flex items-center gap-2 hover:shadow-[0_0_15px_rgba(16,185,129,0.3)] hover:scale-105">{loading ? <><Loader2 className="w-5 h-5 animate-spin" />{t.scan.scanning}</> : <><Scan className="w-5 h-5" />{t.scan.button}</>}</button>
           </div>
         </div>
         {error && <div className="text-center text-red-400 bg-red-900/20 p-4 rounded-xl flex items-center justify-center gap-2"><AlertTriangle className="w-5 h-5" /> {error}</div>}
         {showPricing && (
           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50" onClick={() => setShowPricing(false)}>
-            <div className="bg-slate-800 border border-slate-700 rounded-2xl p-8 w-full max-w-md shadow-2xl animate-in fade-in zoom-in" onClick={e => e.stopPropagation()}>
+            <div className="bg-slate-800 border border-slate-700 rounded-2xl p-8 w-full max-w-md shadow-2xl animate-in fade-in zoom-in transition-all duration-300" onClick={e => e.stopPropagation()}>
               <div className="text-center space-y-4">
                 <div className="w-16 h-16 bg-emerald-500/20 rounded-2xl flex items-center justify-center mx-auto"><Sparkles className="w-8 h-8 text-emerald-400" /></div>
                 <h2 className="text-2xl font-bold">{t.upgrade.title}</h2>
@@ -348,19 +348,19 @@ export default function Home() {
                   <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> {t.upgrade.prioritySupport}</li>
                 </ul>
                 <div className="text-4xl font-bold">{t.upgrade.price}</div>
-                <button onClick={handleUpgrade} className="w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded-xl transition-all flex items-center justify-center gap-2">{t.upgrade.subscribeButton} <ArrowRight className="w-4 h-4" /></button>
-                <button onClick={() => setShowPricing(false)} className="text-sm text-slate-400 hover:text-white">{t.upgrade.maybeLater}</button>
+                <button onClick={handleUpgrade} className="w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-emerald-500/20 hover:scale-105">{t.upgrade.subscribeButton} <ArrowRight className="w-4 h-4" /></button>
+                <button onClick={() => setShowPricing(false)} className="text-sm text-slate-400 hover:text-white transition-all duration-200">{t.upgrade.maybeLater}</button>
               </div>
             </div>
           </div>
         )}
         {session && showHistory && (
-          <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 animate-in fade-in slide-in-from-top">
+          <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 animate-in fade-in slide-in-from-top transition-all duration-300">
             <h2 className="text-xl font-semibold mb-4 flex items-center gap-2"><History className="w-5 h-5" /> {t.history.title}</h2>
             {history.length === 0 ? <p className="text-slate-400">{t.history.noScans}</p> : (
               <div className="space-y-2">
                 {history.map(scan => (
-                  <div key={scan.id} onClick={() => { setScanDetails(scan.details); setScanDetailsOpen(true); }} className="flex justify-between items-center p-3 bg-slate-900 rounded-xl cursor-pointer hover:bg-slate-700 transition-colors">
+                  <div key={scan.id} onClick={() => { setScanDetails(scan.details); setScanDetailsOpen(true); }} className="flex justify-between items-center p-3 bg-slate-900 rounded-xl cursor-pointer hover:bg-slate-700 transition-all duration-200 hover:scale-[1.02]">
                     <div>
                       <p className="text-sm font-medium">{scan.url}</p>
                       <p className="text-xs text-slate-500">{new Date(scan.created_at).toLocaleString()}</p>
@@ -387,7 +387,7 @@ export default function Home() {
                   <p className="text-sm text-slate-300 mb-1 relative cursor-help" title={moduleInfo[mod.label]}>{mod.label}</p>
                   <p className={`text-xl font-bold ${statusColors[mod.data.status] || 'text-white'}`}>{mod.data.score}/{mod.max}</p>
                   <p className="text-xs text-slate-500 mt-1">{mod.data.details}</p>
-                  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                 </div>
               ))}
             </div>
@@ -399,18 +399,18 @@ export default function Home() {
                 <div className="w-full h-4 bg-slate-700 rounded-full overflow-hidden mt-4 shadow-inner"><div className="h-full bg-gradient-to-r from-emerald-500 to-cyan-400 transition-all duration-1000 ease-out relative" style={{ width: `${results.totalScore}%` }}><div className="absolute right-0 top-0 h-full w-4 bg-white/50 blur-sm" /></div></div>
                 <p className="text-slate-400 mt-2">{t.results.average}<br />{results.totalScore < 50 ? t.results.improvements : t.results.onTrack}</p>
                 <div className="flex flex-wrap justify-center gap-4 mt-6">
-                  <button onClick={handleExportPDF} className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl transition-all flex items-center gap-2"><FileText className="w-4 h-4" /> {t.results.exportPdf}</button>
-                  <button onClick={handleShare} className="px-5 py-2.5 border border-slate-600 hover:border-slate-400 text-white rounded-xl transition-all flex items-center gap-2"><Share2 className="w-4 h-4" /> {t.results.share}</button>
-                  <button onClick={() => setChatOpen(true)} className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl transition-all flex items-center gap-2"><MessageSquare className="w-4 h-4" /> {t.results.aiAssistant}</button>
+                  <button onClick={handleExportPDF} className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl transition-all duration-300 flex items-center gap-2 hover:shadow-lg hover:shadow-blue-500/20 hover:scale-105"><FileText className="w-4 h-4" /> {t.results.exportPdf}</button>
+                  <button onClick={handleShare} className="px-5 py-2.5 border border-slate-600 hover:border-slate-400 text-white rounded-xl transition-all duration-300 flex items-center gap-2 hover:shadow-lg hover:shadow-slate-500/10 hover:scale-105"><Share2 className="w-4 h-4" /> {t.results.share}</button>
+                  <button onClick={() => setChatOpen(true)} className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl transition-all duration-300 flex items-center gap-2 hover:shadow-lg hover:shadow-purple-500/20 hover:scale-105"><MessageSquare className="w-4 h-4" /> {t.results.aiAssistant}</button>
                   {profile?.subscription_status === 'active' ? (
-                    <button onClick={handleGenerateFixes} disabled={fixesLoading} className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl transition-all flex items-center gap-2">{fixesLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}{t.results.generateFixes}</button>
+                    <button onClick={handleGenerateFixes} disabled={fixesLoading} className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl transition-all duration-300 flex items-center gap-2 hover:shadow-lg hover:shadow-emerald-500/20 hover:scale-105">{fixesLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}{t.results.generateFixes}</button>
                   ) : (
                     <div className="flex gap-2">
-                      <button onClick={() => setShowPricing(true)} className="px-5 py-2.5 bg-slate-600 hover:bg-slate-500 text-white rounded-xl transition-all flex items-center gap-2"><Wand2 className="w-4 h-4" /> {t.results.aiFixesPro}</button>
-                      <button onClick={handleOneTimePayment} disabled={oneTimeLoading} className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl transition-all flex items-center gap-2">{oneTimeLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}{t.results.buyGeneration}</button>
+                      <button onClick={() => setShowPricing(true)} className="px-5 py-2.5 bg-slate-600 hover:bg-slate-500 text-white rounded-xl transition-all duration-300 flex items-center gap-2 hover:shadow-lg hover:shadow-slate-500/10 hover:scale-105"><Wand2 className="w-4 h-4" /> {t.results.aiFixesPro}</button>
+                      <button onClick={handleOneTimePayment} disabled={oneTimeLoading} className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl transition-all duration-300 flex items-center gap-2 hover:shadow-lg hover:shadow-purple-500/20 hover:scale-105">{oneTimeLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}{t.results.buyGeneration}</button>
                     </div>
                   )}
-                  <button onClick={() => setCompareOpen(true)} className="px-5 py-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl transition-all flex items-center gap-2"><Swords className="w-4 h-4" /> {t.results.compareCompetitors}</button>
+                  <button onClick={() => setCompareOpen(true)} className="px-5 py-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl transition-all duration-300 flex items-center gap-2 hover:shadow-lg hover:shadow-amber-500/20 hover:scale-105"><Swords className="w-4 h-4" /> {t.results.compareCompetitors}</button>
                 </div>
               </div>
             </div>
@@ -418,11 +418,11 @@ export default function Home() {
         )}
         {scanDetailsOpen && scanDetails && (
           <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50" onClick={() => setScanDetailsOpen(false)}>
-            <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 w-full max-w-2xl max-h-[85vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+            <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 w-full max-w-2xl max-h-[85vh] overflow-y-auto transition-all duration-300" onClick={e => e.stopPropagation()}>
               <h3 className="text-xl font-bold mb-4">{scanDetails.url || 'Saved Report'}</h3>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                 {modules(scanDetails).map((mod, idx) => (
-                  <div key={idx} className="p-4 bg-slate-900 rounded-xl text-center">
+                  <div key={idx} className="p-4 bg-slate-900 rounded-xl text-center transition-all duration-200 hover:scale-105">
                     <mod.icon className={`w-6 h-6 mx-auto mb-2 ${statusColors[mod.data.status] || 'text-white'}`} />
                     <p className="text-sm text-slate-300">{mod.label}</p>
                     <p className={`text-xl font-bold ${statusColors[mod.data.status] || 'text-white'}`}>{mod.data.score}/{mod.max}</p>
@@ -430,42 +430,42 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-              <div className="text-center p-4 bg-slate-900 rounded-xl">
+              <div className="text-center p-4 bg-slate-900 rounded-xl transition-all duration-200 hover:scale-105">
                 <p className="text-2xl font-bold text-emerald-400">{scanDetails.totalScore}/100</p>
               </div>
-              <button onClick={() => setScanDetailsOpen(false)} className="mt-4 px-4 py-2 bg-slate-600 rounded-lg w-full">Close</button>
+              <button onClick={() => setScanDetailsOpen(false)} className="mt-4 px-4 py-2 bg-slate-600 rounded-lg w-full transition-all duration-200 hover:bg-slate-500">Close</button>
             </div>
           </div>
         )}
         {chatOpen && (
           <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50" onClick={() => setChatOpen(false)}>
-            <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 w-full max-w-lg h-[500px] flex flex-col" onClick={e => e.stopPropagation()}>
-              <div className="flex justify-between items-center mb-4"><h3 className="text-lg font-bold flex items-center gap-2"><MessageSquare className="w-5 h-5" /> {t.aiAssistant.title}</h3><button onClick={() => setChatOpen(false)} className="text-slate-400 hover:text-white">✕</button></div>
+            <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 w-full max-w-lg h-[500px] flex flex-col transition-all duration-300" onClick={e => e.stopPropagation()}>
+              <div className="flex justify-between items-center mb-4"><h3 className="text-lg font-bold flex items-center gap-2"><MessageSquare className="w-5 h-5" /> {t.aiAssistant.title}</h3><button onClick={() => setChatOpen(false)} className="text-slate-400 hover:text-white transition-all duration-200">✕</button></div>
               <div className="flex-1 overflow-y-auto space-y-2 mb-4">{chatMessages.map((msg, i) => (<div key={i} className={`p-2 rounded-lg ${msg.role === 'user' ? 'bg-blue-600 ml-8' : 'bg-slate-700 mr-8'}`}><p className="text-sm whitespace-pre-wrap">{msg.content}</p></div>))}{chatLoading && <div className="text-slate-400 text-sm">{t.aiAssistant.thinking}</div>}</div>
-              <div className="flex gap-2"><input type="text" value={chatInput} onChange={e => setChatInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleChatSend()} placeholder={t.aiAssistant.placeholder} className="flex-1 px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white outline-none" /><button onClick={handleChatSend} className="px-4 py-2 bg-purple-600 hover:bg-purple-500 rounded-lg text-white">{t.aiAssistant.send}</button></div>
+              <div className="flex gap-2"><input type="text" value={chatInput} onChange={e => setChatInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleChatSend()} placeholder={t.aiAssistant.placeholder} className="flex-1 px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white outline-none transition-all duration-200 focus:border-emerald-400" /><button onClick={handleChatSend} className="px-4 py-2 bg-purple-600 hover:bg-purple-500 rounded-lg text-white transition-all duration-200 hover:shadow-lg hover:shadow-purple-500/20">{t.aiAssistant.send}</button></div>
             </div>
           </div>
         )}
         {fixesOpen && fixesData && (
           <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50" onClick={() => setFixesOpen(false)}>
-            <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 w-full max-w-2xl max-h-[80vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+            <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 w-full max-w-2xl max-h-[80vh] overflow-y-auto transition-all duration-300" onClick={e => e.stopPropagation()}>
               <h3 className="text-xl font-bold mb-4 flex items-center gap-2"><Wand2 className="w-6 h-6 text-emerald-400" /> {t.aiFixes.title}</h3>
               {['robots', 'llms', 'schema'].map(type => (
-                <div key={type} className="mb-4"><h4 className="text-emerald-400 font-semibold">{type}.{type === 'schema' ? 'json' : 'txt'}</h4><pre className="bg-slate-900 p-3 rounded-lg text-xs overflow-x-auto text-slate-300">{fixesData[type]}</pre><div className="flex gap-2 mt-2"><button onClick={() => navigator.clipboard.writeText(fixesData[type])} className="px-3 py-1 bg-blue-600 rounded text-sm flex items-center gap-1"><Copy className="w-3 h-3" /> {t.aiFixes.copy}</button><button onClick={() => { const blob = new Blob([fixesData[type]], {type: 'text/plain'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${type}.${type === 'schema' ? 'json' : 'txt'}`; a.click(); }} className="px-3 py-1 bg-emerald-600 rounded text-sm flex items-center gap-1"><Download className="w-3 h-3" /> {t.aiFixes.download}</button></div></div>
+                <div key={type} className="mb-4"><h4 className="text-emerald-400 font-semibold">{type}.{type === 'schema' ? 'json' : 'txt'}</h4><pre className="bg-slate-900 p-3 rounded-lg text-xs overflow-x-auto text-slate-300">{fixesData[type]}</pre><div className="flex gap-2 mt-2"><button onClick={() => navigator.clipboard.writeText(fixesData[type])} className="px-3 py-1 bg-blue-600 rounded text-sm flex items-center gap-1 transition-all duration-200 hover:bg-blue-500 hover:scale-105"><Copy className="w-3 h-3" /> {t.aiFixes.copy}</button><button onClick={() => { const blob = new Blob([fixesData[type]], {type: 'text/plain'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${type}.${type === 'schema' ? 'json' : 'txt'}`; a.click(); }} className="px-3 py-1 bg-emerald-600 rounded text-sm flex items-center gap-1 transition-all duration-200 hover:bg-emerald-500 hover:scale-105"><Download className="w-3 h-3" /> {t.aiFixes.download}</button></div></div>
               ))}
-              <button onClick={() => setFixesOpen(false)} className="mt-4 px-4 py-2 bg-slate-600 rounded-lg">{t.aiFixes.close}</button>
+              <button onClick={() => setFixesOpen(false)} className="mt-4 px-4 py-2 bg-slate-600 rounded-lg w-full transition-all duration-200 hover:bg-slate-500">{t.aiFixes.close}</button>
             </div>
           </div>
         )}
         {compareOpen && (
           <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50" onClick={() => setCompareOpen(false)}>
-            <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 w-full max-w-4xl max-h-[85vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+            <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 w-full max-w-4xl max-h-[85vh] overflow-y-auto transition-all duration-300" onClick={e => e.stopPropagation()}>
               <h3 className="text-xl font-bold mb-4 flex items-center gap-2"><Swords className="w-6 h-6 text-amber-400" /> {t.compare.title}</h3>
               <p className="text-sm text-slate-400 mb-4">{t.compare.description}</p>
-              <div className="flex flex-wrap gap-2 mb-4">{competitors.map((comp, i) => (<input key={i} type="url" placeholder={t.compare.placeholder.replace('{number}', i + 1)} className="flex-1 min-w-[200px] px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white outline-none" value={comp} onChange={e => { const newComps = [...competitors]; newComps[i] = e.target.value; setCompetitors(newComps); }} />))}</div>
+              <div className="flex flex-wrap gap-2 mb-4">{competitors.map((comp, i) => (<input key={i} type="url" placeholder={t.compare.placeholder.replace('{number}', i + 1)} className="flex-1 min-w-[200px] px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white outline-none transition-all duration-200 focus:border-amber-400" value={comp} onChange={e => { const newComps = [...competitors]; newComps[i] = e.target.value; setCompetitors(newComps); }} />))}</div>
               <div className="flex gap-2 mb-6">
-                <button onClick={handleCompare} disabled={compareLoading || !results} className="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-all disabled:opacity-50 flex items-center gap-2">{compareLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Swords className="w-4 h-4" />}{t.compare.compareButton}</button>
-                <button onClick={() => setCompareOpen(false)} className="px-4 py-2 bg-slate-600 rounded-lg">{t.compare.close}</button>
+                <button onClick={handleCompare} disabled={compareLoading || !results} className="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-lg transition-all duration-300 disabled:opacity-50 flex items-center gap-2 hover:shadow-lg hover:shadow-amber-500/20 hover:scale-105">{compareLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Swords className="w-4 h-4" />}{t.compare.compareButton}</button>
+                <button onClick={() => setCompareOpen(false)} className="px-4 py-2 bg-slate-600 rounded-lg transition-all duration-200 hover:bg-slate-500">{t.compare.close}</button>
               </div>
               {compareResults && results && (
                 <div className="overflow-x-auto">
@@ -489,12 +489,14 @@ export default function Home() {
           <h2 className="text-2xl font-bold mb-6 text-center">{locale === 'ru' ? 'Часто задаваемые вопросы' : 'Frequently Asked Questions'}</h2>
           <div className="space-y-3">
             {faqItems.map((item, index) => (
-              <div key={index} className="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden">
-                <button onClick={() => setFaqOpen(faqOpen === index ? null : index)} className="w-full flex items-center justify-between p-4 text-left hover:bg-slate-700 transition-colors">
+              <div key={index} className="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden transition-all duration-200 hover:border-slate-600">
+                <button onClick={() => setFaqOpen(faqOpen === index ? null : index)} className="w-full flex items-center justify-between p-4 text-left hover:bg-slate-700 transition-all duration-200">
                   <span className="font-medium text-white">{item.question}</span>
-                  <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform ${faqOpen === index ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform duration-300 ${faqOpen === index ? 'rotate-180' : ''}`} />
                 </button>
-                {faqOpen === index && <div className="px-4 pb-4 text-slate-300 text-sm leading-relaxed">{item.answer}</div>}
+                <div className={`overflow-hidden transition-all duration-300 ease-in-out ${faqOpen === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+                  <div className="px-4 pb-4 text-slate-300 text-sm leading-relaxed">{item.answer}</div>
+                </div>
               </div>
             ))}
           </div>
