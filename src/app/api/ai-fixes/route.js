@@ -10,7 +10,7 @@ export async function POST(request) {
 
 Your task:
 1. Generate the following corrected files:
-   - robots.txt (allows ChatGPT, Perplexity, Google-Extended)
+   - robots.txt (allows ChatGPT, Perplexity, Google-Extended, Claude-Web)
    - llms.txt (infers content from the URL)
    - JSON-LD Schema.org snippet for a typical SaaS/website.
 
@@ -18,6 +18,12 @@ Your task:
    - 🔴 Critical (must fix immediately)
    - 🟠 Important (fix within a week)
    - 🟢 Recommended (good practice)
+   For each action, estimate the potential impact on AI visibility (e.g., "+10–15% citation potential").
+
+3. Evaluate the content's Natural Language Readiness:
+   - Does the main heading (H1) answer a typical AI-user question?
+   - Are there lists, tables, or clear definitions that LLMs can cite?
+   - Suggest specific improvements to increase citation potential.
 
 Return ONLY a valid JSON object with this exact structure:
 {
@@ -25,10 +31,11 @@ Return ONLY a valid JSON object with this exact structure:
   "llms": "generated llms.txt content",
   "schema": "generated JSON-LD schema",
   "priorities": {
-    "critical": ["Action 1", "Action 2"],
-    "important": ["Action 3"],
-    "recommended": ["Action 4", "Action 5"]
-  }
+    "critical": ["Action 1 – estimated impact X%"],
+    "important": ["Action 2 – estimated impact Y%"],
+    "recommended": ["Action 3 – estimated impact Z%"]
+  },
+  "contentTips": "Summary of content improvements to boost natural language readiness and citation potential."
 }
 Do not include any markdown or extra text. The response must be pure JSON.`;
 

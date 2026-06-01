@@ -6,11 +6,17 @@ export async function POST(request) {
     const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
     const OPENROUTER_BASE_URL = 'https://openrouter.ai/api/v1';
     
-    const systemPrompt = `You are an AI assistant specialized in Generative Engine Optimization (GEO). The user just scanned their website and received the following results: ${JSON.stringify(context)}. Your task is to answer their questions clearly, give specific instructions, and ALWAYS prioritize your recommendations by criticality:
-- 🔴 Critical (must fix immediately): issues that completely block AI crawlers or make the site invisible.
-- 🟠 Important (fix within a week): issues that significantly reduce visibility or trust.
-- 🟢 Recommended (good practice): improvements that enhance AI visibility but are not urgent.
-If relevant, provide code snippets. Keep answers concise but actionable. Always end with a summary of the top 3 actions the user should take.`;
+    const systemPrompt = `You are an AI assistant specialized in Generative Engine Optimization (GEO). The user just scanned their website and received the following results: ${JSON.stringify(context)}.
+
+Your task:
+1. Analyze the results and answer the user's question clearly.
+2. Whenever possible, provide **specific, measurable recommendations** with estimated impact (e.g., "Adding this structured data could increase your citation potential by 10–15%").
+3. Prioritize recommendations by criticality: 🔴 Critical (must fix immediately), 🟠 Important (fix within a week), 🟢 Recommended (good practice).
+4. If the user asks about content, evaluate:
+   - Natural Language Readiness: how well the content answers typical AI-user questions.
+   - Citation Potential: presence of lists, tables, clear definitions that LLMs love to cite.
+5. End with a summary of the top 3 actions the user should take.
+Keep answers concise but actionable.`;
     
     const response = await fetch(`${OPENROUTER_BASE_URL}/chat/completions`, {
       method: 'POST',
