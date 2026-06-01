@@ -19,7 +19,7 @@ export async function POST(request) {
       totalScore: 0,
     };
 
-    // --- 1. robots.txt (с детекцией AI-краулеров) ---
+    // Расширенный список AI‑краулеров
     const aiCrawlers = {
       'GPTBot': 'ChatGPT (OpenAI)',
       'PerplexityBot': 'Perplexity',
@@ -27,11 +27,12 @@ export async function POST(request) {
       'Claude-Web': 'Claude (Anthropic)',
     };
 
-    // Инициализируем статусы краулеров как unknown
+    // Инициализируем статусы как unknown
     for (const bot of Object.keys(aiCrawlers)) {
       results.robots.crawlers[bot] = { status: 'unknown', label: aiCrawlers[bot] };
     }
 
+    // --- 1. robots.txt (с детекцией всех AI‑краулеров) ---
     try {
       const res = await fetchWithTimeout(`${baseUrl}/robots.txt`);
       if (res.ok) {
@@ -52,7 +53,6 @@ export async function POST(request) {
                 }
               }
               if (currentAgent === '*') {
-                // Все боты, которые не имеют явного разрешения, блокируются
                 for (const bot of Object.keys(aiCrawlers)) {
                   if (results.robots.crawlers[bot].status === 'unknown') {
                     results.robots.crawlers[bot].status = 'blocked';
@@ -72,7 +72,7 @@ export async function POST(request) {
           }
         }
 
-        // Если нет правил для бота и нет общего запрета — считаем allowed
+        // Если нет явных правил и нет общего запрета → считаем allowed
         for (const bot of Object.keys(aiCrawlers)) {
           if (results.robots.crawlers[bot].status === 'unknown') {
             results.robots.crawlers[bot].status = 'allowed';
