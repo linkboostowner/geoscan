@@ -6,17 +6,22 @@ export async function POST(request) {
     const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
     const OPENROUTER_BASE_URL = 'https://openrouter.ai/api/v1';
     
-    const systemPrompt = `You are an AI assistant specialized in Generative Engine Optimization (GEO). The user just scanned their website and received the following results: ${JSON.stringify(context)}.
+    const systemPrompt = `You are an expert AI assistant specialized in Generative Engine Optimization (GEO). The user just scanned their website and received the following detailed results: ${JSON.stringify(context)}.
 
 Your task:
 1. Analyze the results and answer the user's question clearly.
-2. Whenever possible, provide **specific, measurable recommendations** with estimated impact (e.g., "Adding this structured data could increase your citation potential by 10–15%").
-3. Prioritize recommendations by criticality: 🔴 Critical (must fix immediately), 🟠 Important (fix within a week), 🟢 Recommended (good practice).
+2. **Always provide specific, measurable recommendations with estimated impact.** For example:
+   - "Adding an llms.txt file could increase your GEO Score by 20 points and raise citation potential by 15%."
+   - "Fixing robots.txt to unblock GPTBot will immediately make your site visible to ChatGPT, potentially recovering 30% of lost AI traffic."
+3. Prioritize recommendations by criticality with clear impact estimates:
+   - 🔴 Critical (must fix immediately, impact: high)
+   - 🟠 Important (fix within a week, impact: medium)
+   - 🟢 Recommended (good practice, impact: low)
 4. If the user asks about content, evaluate:
    - Natural Language Readiness: how well the content answers typical AI-user questions.
    - Citation Potential: presence of lists, tables, clear definitions that LLMs love to cite.
-5. End with a summary of the top 3 actions the user should take.
-Keep answers concise but actionable.`;
+5. **End with a concrete, actionable checklist** that the user can copy-paste, with each item having a predicted impact on their GEO Score (e.g., "+15 points").
+Keep answers concise but actionable. Use the specific scores and details from the scan to make your advice personalized.`;
     
     const response = await fetch(`${OPENROUTER_BASE_URL}/chat/completions`, {
       method: 'POST',
@@ -32,7 +37,7 @@ Keep answers concise but actionable.`;
           { role: 'system', content: systemPrompt },
           { role: 'user', content: message },
         ],
-        max_tokens: 1000,
+        max_tokens: 1200, // немного увеличил, чтобы вместить развернутые ответы
       }),
     });
 

@@ -14,16 +14,16 @@ Your task:
    - llms.txt (infers content from the URL)
    - JSON-LD Schema.org snippet for a typical SaaS/website.
 
-2. Analyze the issues and provide a prioritized action plan with three levels:
+2. Analyze the issues and provide a **prioritized, measurable action plan** with three levels:
    - 🔴 Critical (must fix immediately)
    - 🟠 Important (fix within a week)
    - 🟢 Recommended (good practice)
-   For each action, estimate the potential impact on AI visibility (e.g., "+10–15% citation potential").
+   For each action, include an **estimated impact** on the GEO Score and/or AI visibility (e.g., "Fixing robots.txt: +25 GEO Score points, +30% citation potential").
 
 3. Evaluate the content's Natural Language Readiness:
    - Does the main heading (H1) answer a typical AI-user question?
    - Are there lists, tables, or clear definitions that LLMs can cite?
-   - Suggest specific improvements to increase citation potential.
+   - Suggest specific improvements with estimated impact.
 
 Return ONLY a valid JSON object with this exact structure:
 {
@@ -31,11 +31,17 @@ Return ONLY a valid JSON object with this exact structure:
   "llms": "generated llms.txt content",
   "schema": "generated JSON-LD schema",
   "priorities": {
-    "critical": ["Action 1 – estimated impact X%"],
-    "important": ["Action 2 – estimated impact Y%"],
-    "recommended": ["Action 3 – estimated impact Z%"]
+    "critical": [
+      "Action 1 – estimated impact: +X GEO Score points, +Y% citation potential"
+    ],
+    "important": [
+      "Action 2 – estimated impact: +X GEO Score points"
+    ],
+    "recommended": [
+      "Action 3 – estimated impact: +X GEO Score points"
+    ]
   },
-  "contentTips": "Summary of content improvements to boost natural language readiness and citation potential."
+  "contentTips": "Summary of content improvements with estimated impact (e.g., 'Adding structured definitions to your homepage could increase citation potential by 20%')."
 }
 Do not include any markdown or extra text. The response must be pure JSON.`;
 
@@ -50,7 +56,7 @@ Do not include any markdown or extra text. The response must be pure JSON.`;
       body: JSON.stringify({
         model: 'openrouter/free',
         messages: [{ role: 'user', content: prompt }],
-        max_tokens: 2000,
+        max_tokens: 2500, // увеличенный лимит для подробных ответов
       }),
     });
 
