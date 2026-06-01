@@ -7,35 +7,36 @@ import {
   Scan, Zap, Shield, FileText, FolderTree, Tag, Share2, Code,
   History, LogOut, Mail, ChevronRight, Check, AlertTriangle, X, Sparkles,
   MapPin, ArrowRight, Loader2, MessageSquare, Wand2, Copy, Download, Swords,
-  BookOpen, ChevronDown, BarChart3, Gift
+  BookOpen, ChevronDown, BarChart3, Gift, ShoppingCart
 } from 'lucide-react';
 
+// ==================== ПЕРЕВОДЫ ====================
 const translations = {
   en: {
     hero: { title: 'Is Your Site Ready for', subtitle: 'AI Search?', description: 'AI search engines like ChatGPT and Perplexity now drive 30% of organic traffic. Most sites are completely invisible to them. Find out where you stand in 60 seconds.', freeScans: '3 free scans/month', fast: 'Fast', pro: 'PRO: unlimited + history + PDF' },
     scan: { placeholder: 'Enter URL (e.g. yoursite.com)', button: 'Scan', scanning: 'Scanning...' },
     login: { placeholder: 'you@example.com', button: 'Sign In', sending: 'Sending...', checkEmail: 'Check your email! We sent a magic link.' },
     upgrade: { button: 'Upgrade', title: 'Upgrade to PRO', unlimitedScans: 'Unlimited scans', fullHistory: 'Full history', pdfExport: 'PDF export', prioritySupport: 'Priority support', price: '$39/month', subscribeButton: 'Subscribe with Stripe', maybeLater: 'Maybe later' },
-    results: { geoScore: 'Your GEO Score', average: 'Average in your niche (SaaS): 65%', improvements: 'Improvements needed', onTrack: 'You are on the right track!', exportPdf: 'Export PDF', share: 'Share', aiAssistant: 'AI Assistant', generateFixes: 'Generate Fixes (AI)', aiFixesPro: 'AI Fixes (PRO)', buyGeneration: 'Buy generation for $9.99', compareCompetitors: 'Compare with competitors', shareForScans: 'Share & Get +3 Scans' },
+    results: { geoScore: 'Your GEO Score', average: 'Average in your niche (SaaS): 65%', improvements: 'Improvements needed', onTrack: 'You are on the right track!', exportPdf: 'Export PDF', share: 'Share', aiAssistant: 'AI Assistant', generateFixes: 'Generate Fixes (AI)', aiFixesPro: 'AI Fixes (PRO)', buyGeneration: 'Buy generation for $9.99', compareCompetitors: 'Compare with competitors', shareForScans: 'Share & Get +3 Scans', buyScanPack: 'Buy 10 Scans — $4.99' },
     history: { title: 'Recent Scans', noScans: 'No scans yet.' },
     aiAssistant: { title: 'AI Assistant', placeholder: 'Ask about your report...', send: 'Send', thinking: 'Thinking...' },
     aiFixes: { title: 'AI-Generated Fixes', copy: 'Copy', download: 'Download', close: 'Close' },
     compare: { title: 'Compare with competitors', description: 'Enter up to three competitor URLs to compare with your site.', placeholder: 'Competitor {number}', compareButton: 'Compare', close: 'Close', module: 'Module', yourSite: 'Your site', geoScore: 'GEO Score' },
     liveExample: { title: 'Live example: stripe.com', updated: 'Updated daily', geoScore: 'GEO Score', callToAction: 'Want to know your GEO Score? Enter URL above and click «Scan»' },
-    shareBonus: { twitterText: 'I just checked my site on GeoScan and got a GEO Score of {score}/100. Check yours for free:', thanks: 'Thanks for sharing! +3 free scans added to your account.' }
+    shareBonus: { thanks: 'Thanks for sharing! +3 free scans added to your account.' }
   },
   ru: {
     hero: { title: 'Готов ли ваш сайт к', subtitle: 'AI-поиску?', description: 'ChatGPT, Perplexity и другие AI-поисковики уже дают 30% трафика. Большинство сайтов для них невидимы. Узнайте, где вы находитесь, за 60 секунд.', freeScans: '3 бесплатных скана/мес', fast: 'Быстро', pro: 'PRO: безлимит + история + PDF' },
     scan: { placeholder: 'Введите URL (например, yoursite.com)', button: 'Сканировать', scanning: 'Сканируем...' },
     login: { placeholder: 'you@example.com', button: 'Войти', sending: 'Отправка...', checkEmail: 'Проверьте почту! Мы отправили волшебную ссылку.' },
     upgrade: { button: 'Upgrade', title: 'Обновитесь до PRO', unlimitedScans: 'Безлимитные сканирования', fullHistory: 'Полная история', pdfExport: 'Экспорт PDF', prioritySupport: 'Приоритетная поддержка', price: '$39/мес', subscribeButton: 'Подписаться через Stripe', maybeLater: 'Может, позже' },
-    results: { geoScore: 'Ваш GEO Score', average: 'Средний показатель в вашей нише (SaaS): 65%', improvements: 'Требуются улучшения', onTrack: 'Вы на правильном пути!', exportPdf: 'Экспорт PDF', share: 'Поделиться', aiAssistant: 'AI-помощник', generateFixes: 'Сгенерировать исправления (AI)', aiFixesPro: 'AI-исправления (PRO)', buyGeneration: 'Купить генерацию за $9.99', compareCompetitors: 'Сравнить с конкурентами', shareForScans: 'Поделись и получи +3 скана' },
+    results: { geoScore: 'Ваш GEO Score', average: 'Средний показатель в вашей нише (SaaS): 65%', improvements: 'Требуются улучшения', onTrack: 'Вы на правильном пути!', exportPdf: 'Экспорт PDF', share: 'Поделиться', aiAssistant: 'AI-помощник', generateFixes: 'Сгенерировать исправления (AI)', aiFixesPro: 'AI-исправления (PRO)', buyGeneration: 'Купить генерацию за $9.99', compareCompetitors: 'Сравнить с конкурентами', shareForScans: 'Поделись и получи +3 скана', buyScanPack: 'Купить 10 сканов — $4.99' },
     history: { title: 'Недавние сканирования', noScans: 'Пока нет сканирований.' },
     aiAssistant: { title: 'AI-помощник', placeholder: 'Спросите о вашем отчёте...', send: 'Отправить', thinking: 'Думаю...' },
     aiFixes: { title: 'AI-сгенерированные исправления', copy: 'Копировать', download: 'Скачать', close: 'Закрыть' },
     compare: { title: 'Сравнение с конкурентами', description: 'Введите до трёх URL конкурентов, чтобы сравнить их с вашим сайтом.', placeholder: 'Конкурент {number}', compareButton: 'Сравнить', close: 'Закрыть', module: 'Модуль', yourSite: 'Ваш сайт', geoScore: 'GEO Score' },
     liveExample: { title: 'Живой пример: stripe.com', updated: 'Обновляется ежедневно', geoScore: 'GEO Score', callToAction: 'Хотите узнать свой GEO Score? Введите URL выше и нажмите «Сканировать»' },
-    shareBonus: { twitterText: 'Я только что проверил свой сайт в GeoScan и получил GEO Score {score}/100. Проверь свой бесплатно:', thanks: 'Спасибо! +3 бесплатных скана добавлено.' }
+    shareBonus: { thanks: 'Спасибо! +3 бесплатных скана добавлено.' }
   }
 };
 
@@ -64,16 +65,22 @@ function LanguageSwitcher({ locale, setLocale }) {
 export default function Home() {
   const [locale, setLocale] = useState('en');
   const [ready, setReady] = useState(false);
+  const [extraScans, setExtraScans] = useState(0);
+  const [sharedUrls, setSharedUrls] = useState({});
 
   useEffect(() => {
     const saved = localStorage.getItem('locale');
     if (saved === 'en' || saved === 'ru') setLocale(saved);
+    const savedExtra = localStorage.getItem('geoscan-extra-scans');
+    if (savedExtra) setExtraScans(parseInt(savedExtra) || 0);
+    const savedShared = localStorage.getItem('geoscan-shared-urls');
+    if (savedShared) setSharedUrls(JSON.parse(savedShared));
     setReady(true);
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem('locale', locale);
-  }, [locale]);
+  useEffect(() => { localStorage.setItem('locale', locale); }, [locale]);
+  useEffect(() => { localStorage.setItem('geoscan-extra-scans', extraScans.toString()); }, [extraScans]);
+  useEffect(() => { localStorage.setItem('geoscan-shared-urls', JSON.stringify(sharedUrls)); }, [sharedUrls]);
 
   const t = translations[locale];
 
@@ -103,64 +110,12 @@ export default function Home() {
   const [faqOpen, setFaqOpen] = useState(null);
   const [scanDetailsOpen, setScanDetailsOpen] = useState(false);
   const [scanDetails, setScanDetails] = useState(null);
-  const [extraScans, setExtraScans] = useState(0);
-  const [sharedUrls, setSharedUrls] = useState({});
-
-  useEffect(() => {
-    const savedExtra = localStorage.getItem('geoscan-extra-scans');
-    if (savedExtra) setExtraScans(parseInt(savedExtra) || 0);
-    const savedShared = localStorage.getItem('geoscan-shared-urls');
-    if (savedShared) setSharedUrls(JSON.parse(savedShared));
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('geoscan-extra-scans', extraScans.toString());
-  }, [extraScans]);
-
-  useEffect(() => {
-    localStorage.setItem('geoscan-shared-urls', JSON.stringify(sharedUrls));
-  }, [sharedUrls]);
-
-  const handleShareForScans = () => {
-    if (!results || sharedUrls[url]) return;
-    const text = locale === 'ru'
-      ? `Я только что проверил свой сайт в GeoScan и получил GEO Score ${results.totalScore}/100. Проверь свой бесплатно: https://geoscan-a.vercel.app`
-      : `I just checked my site on GeoScan and got a GEO Score of ${results.totalScore}/100. Check yours for free: https://geoscan-a.vercel.app`;
-    if (navigator.share) {
-      navigator.share({ title: 'GeoScan Report', text }).catch(() => {});
-    } else {
-      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
-    }
-    setExtraScans(prev => prev + 3);
-    setSharedUrls(prev => ({ ...prev, [url]: true }));
-    alert(t.shareBonus.thanks);
-  };
 
   const faqItems = [
-    {
-      question: locale === 'ru' ? 'Что проверяет GeoScan?' : 'What does GeoScan check?',
-      answer: locale === 'ru'
-        ? 'GeoScan проверяет 6 ключевых факторов: robots.txt для AI-краулеров, llms.txt, sitemap.xml, мета-теги, Open Graph разметку и Schema.org структурированные данные. Все проверки занимают около 60 секунд.'
-        : 'GeoScan checks 6 key factors: robots.txt for AI crawlers, llms.txt, sitemap.xml, meta tags, Open Graph markup, and Schema.org structured data. All checks take about 60 seconds.'
-    },
-    {
-      question: locale === 'ru' ? 'Это бесплатно?' : 'Is it free?',
-      answer: locale === 'ru'
-        ? 'Да, первые 3 сканирования в месяц бесплатны и не требуют регистрации. Для unlimited доступа и AI-функций есть PRO-подписка за $39/мес.'
-        : 'Yes, the first 3 scans per month are free and require no registration. For unlimited access and AI features, there is a PRO subscription at $39/month.'
-    },
-    {
-      question: locale === 'ru' ? 'Чем GeoScan отличается от SEO-инструментов?' : 'How is GeoScan different from SEO tools?',
-      answer: locale === 'ru'
-        ? 'Традиционные SEO-инструменты фокусируются на Google. GeoScan специализируется на AI-поисковиках — ChatGPT, Perplexity, Google AI Overviews. Мы проверяем специфические для AI факторы, такие как llms.txt и доступ для GPTBot.'
-        : 'Traditional SEO tools focus on Google. GeoScan specializes in AI search engines — ChatGPT, Perplexity, Google AI Overviews. We check AI-specific factors like llms.txt and GPTBot access.'
-    },
-    {
-      question: locale === 'ru' ? 'Нужно ли регистрироваться?' : 'Do I need to register?',
-      answer: locale === 'ru'
-        ? 'Нет, для первых 3 сканов регистрация не нужна. Если хотите сохранять историю и использовать PRO-функции, потребуется войти через email.'
-        : 'No, the first 3 scans require no registration. If you want to save history and use PRO features, you will need to log in via email.'
-    },
+    { question: locale === 'ru' ? 'Что проверяет GeoScan?' : 'What does GeoScan check?', answer: locale === 'ru' ? 'GeoScan проверяет 6 ключевых факторов: robots.txt для AI-краулеров, llms.txt, sitemap.xml, мета-теги, Open Graph разметку и Schema.org структурированные данные. Все проверки занимают около 60 секунд.' : 'GeoScan checks 6 key factors: robots.txt for AI crawlers, llms.txt, sitemap.xml, meta tags, Open Graph markup, and Schema.org structured data. All checks take about 60 seconds.' },
+    { question: locale === 'ru' ? 'Это бесплатно?' : 'Is it free?', answer: locale === 'ru' ? 'Да, первые 3 сканирования в месяц бесплатны и не требуют регистрации. Для unlimited доступа и AI-функций есть PRO-подписка за $39/мес.' : 'Yes, the first 3 scans per month are free and require no registration. For unlimited access and AI features, there is a PRO subscription at $39/month.' },
+    { question: locale === 'ru' ? 'Чем GeoScan отличается от SEO-инструментов?' : 'How is GeoScan different from SEO tools?', answer: locale === 'ru' ? 'Традиционные SEO-инструменты фокусируются на Google. GeoScan специализируется на AI-поисковиках — ChatGPT, Perplexity, Google AI Overviews. Мы проверяем специфические для AI факторы, такие как llms.txt и доступ для GPTBot.' : 'Traditional SEO tools focus on Google. GeoScan specializes in AI search engines — ChatGPT, Perplexity, Google AI Overviews. We check AI-specific factors like llms.txt and GPTBot access.' },
+    { question: locale === 'ru' ? 'Нужно ли регистрироваться?' : 'Do I need to register?', answer: locale === 'ru' ? 'Нет, для первых 3 сканов регистрация не нужна. Если хотите сохранять историю и использовать PRO-функции, потребуется войти через email.' : 'No, the first 3 scans require no registration. If you want to save history and use PRO features, you will need to log in via email.' },
   ];
 
   useEffect(() => {
@@ -171,15 +126,22 @@ export default function Home() {
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       if (session) { fetchProfile(session.user.id); fetchHistory(session.user.id); }
-      else { setProfile(null); setHistory([]); }
+      else { setProfile(null); setHistory([]); setExtraScans(0); }
     });
     return () => listener.subscription.unsubscribe();
   }, []);
 
   const fetchProfile = async (userId) => {
     const { data } = await supabase.from('profiles').select('*').eq('id', userId).single();
-    if (!data || data.subscription_status !== 'active') setProfile({ id: userId, subscription_status: 'inactive' });
-    else setProfile(data);
+    if (data) {
+      setProfile(data);
+      if (data.extra_scans) {
+        setExtraScans(data.extra_scans);
+        localStorage.setItem('geoscan-extra-scans', data.extra_scans.toString());
+      }
+    } else {
+      setProfile({ id: userId, subscription_status: 'inactive' });
+    }
   };
 
   const fetchHistory = async (userId) => {
@@ -196,31 +158,23 @@ export default function Home() {
     else alert(t.login.checkEmail);
   };
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    setSession(null);
-    setProfile(null);
-    setHistory([]);
-  };
+  const handleLogout = async () => { await supabase.auth.signOut(); setSession(null); setProfile(null); setHistory([]); setExtraScans(0); };
 
   const handleScan = async () => {
     if (!url) return;
     if (session && (!profile || profile.subscription_status !== 'active')) {
-      const thisMonth = new Date().getMonth();
-      const thisYear = new Date().getFullYear();
+      const thisMonth = new Date().getMonth(); const thisYear = new Date().getFullYear();
       const monthlyScans = history.filter(s => new Date(s.created_at).getMonth() === thisMonth && new Date(s.created_at).getFullYear() === thisYear);
       if (monthlyScans.length >= FREE_LIMIT + extraScans) {
-        alert(locale === 'ru' ? 'Вы достигли лимита бесплатных сканирований. Обновитесь до PRO или поделитесь в соцсетях, чтобы получить +3 скана.' : 'You have reached the free scan limit. Upgrade to PRO or share on social media to get +3 scans.');
-        setShowPricing(true);
-        return;
+        alert(locale === 'ru' ? 'Вы достигли лимита бесплатных сканирований. Обновитесь до PRO или купите пакет сканов.' : 'You have reached the free scan limit. Upgrade to PRO or buy a scan pack.');
+        setShowPricing(true); return;
       }
     }
     setLoading(true); setError(''); setResults(null); setCompareResults(null);
     try {
       const res = await fetch('/api/scan', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url }) });
       if (!res.ok) throw new Error('Сканирование не удалось');
-      const data = await res.json();
-      setResults(data);
+      const data = await res.json(); setResults(data);
       if (session) {
         await supabase.from('scans').insert({ user_id: session.user.id, url, total_score: data.totalScore, robots_score: data.robots.score, llms_score: data.llms.score, sitemap_score: data.sitemap.score, meta_score: data.meta.score, og_score: data.openGraph.score, schema_score: data.schema.score, details: data });
         fetchHistory(session.user.id);
@@ -232,9 +186,7 @@ export default function Home() {
     if (!session) return alert('Пожалуйста, войдите сначала');
     try {
       const res = await fetch('/api/create-checkout-session', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ priceId: 'price_1TbcxTBnnj8yRRWUOY0MnOk8', userId: session.user.id }) });
-      const data = await res.json();
-      if (data.url) window.location.href = data.url;
-      else alert(data.error);
+      const data = await res.json(); if (data.url) window.location.href = data.url; else alert(data.error);
     } catch (err) { alert(err.message); }
   };
 
@@ -244,10 +196,18 @@ export default function Home() {
     setOneTimeLoading(true);
     try {
       const res = await fetch('/api/create-onetime-payment', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId: session.user.id, url }) });
-      const data = await res.json();
-      if (data.url) window.location.href = data.url;
-      else alert(data.error);
+      const data = await res.json(); if (data.url) window.location.href = data.url; else alert(data.error);
     } catch (err) { alert(err.message); } finally { setOneTimeLoading(false); }
+  };
+
+  const handleBuyScanPack = async () => {
+    try {
+      const res = await fetch('/api/buy-scans', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ priceId: 'price_1TdYJQBnnj8yRRWUAb5gEbi4', userId: session?.user?.id || '' }),
+      });
+      const data = await res.json(); if (data.url) window.location.href = data.url; else alert(data.error);
+    } catch (err) { alert(err.message); }
   };
 
   const handleExportPDF = () => {
@@ -279,9 +239,17 @@ export default function Home() {
 
   const handleShare = () => {
     if (!results) return;
-    const text = `Я только что проверил свой сайт в GeoScan и получил GEO Score ${results.totalScore}/100. Узнай, готов ли твой сайт к AI-поиску: https://geoscan-a.vercel.app`;
-    if (navigator.share) navigator.share({ title: 'GeoScan Report', text });
-    else window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+    const text = locale === 'ru' ? `Я только что проверил свой сайт в GeoScan и получил GEO Score ${results.totalScore}/100. Узнай, готов ли твой сайт к AI-поиску: https://geoscan-a.vercel.app` : `I just checked my site on GeoScan and got a GEO Score of ${results.totalScore}/100. Check yours for free: https://geoscan-a.vercel.app`;
+    if (navigator.share) navigator.share({ title: 'GeoScan Report', text }); else window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+  };
+
+  const handleShareForScans = () => {
+    if (!results || sharedUrls[url]) return;
+    const text = locale === 'ru' ? `Я только что проверил свой сайт в GeoScan и получил GEO Score ${results.totalScore}/100. Проверь свой бесплатно: https://geoscan-a.vercel.app` : `I just checked my site on GeoScan and got a GEO Score of ${results.totalScore}/100. Check yours for free: https://geoscan-a.vercel.app`;
+    if (navigator.share) { navigator.share({ title: 'GeoScan Report', text }).catch(() => {}); } else { window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank'); }
+    setExtraScans(prev => prev + 3);
+    setSharedUrls(prev => ({ ...prev, [url]: true }));
+    alert(t.shareBonus.thanks);
   };
 
   const handleChatSend = async () => {
@@ -327,10 +295,7 @@ export default function Home() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2"><MapPin className="w-8 h-8 text-emerald-400" /><span className="text-2xl font-bold tracking-tight">GeoScan</span></div>
           <div className="flex items-center gap-3">
-            <a href="https://georank-tracker.vercel.app" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl text-sm text-slate-300 transition-colors duration-200 flex items-center gap-2">
-              <BarChart3 className="w-4 h-4 text-blue-400" />
-              GeoRank Tracker
-            </a>
+            <a href="https://georank-tracker.vercel.app" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl text-sm text-slate-300 transition-colors duration-200 flex items-center gap-2"><BarChart3 className="w-4 h-4 text-blue-400" />GeoRank Tracker</a>
             <a href="/blog" title="Blog" className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors duration-200"><BookOpen className="w-4 h-4" /></a>
             <LanguageSwitcher locale={locale} setLocale={setLocale} />
             {!session ? (
@@ -404,17 +369,12 @@ export default function Home() {
           <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6">
             <h2 className="text-xl font-semibold mb-4 flex items-center gap-2"><History className="w-5 h-5" /> {t.history.title}</h2>
             {history.length === 0 ? <p className="text-slate-400">{t.history.noScans}</p> : (
-              <div className="space-y-2">
-                {history.map(scan => (
-                  <div key={scan.id} onClick={() => { setScanDetails(scan.details); setScanDetailsOpen(true); }} className="flex justify-between items-center p-3 bg-slate-900 rounded-xl cursor-pointer hover:bg-slate-700 transition-colors duration-200">
-                    <div>
-                      <p className="text-sm font-medium">{scan.url}</p>
-                      <p className="text-xs text-slate-500">{new Date(scan.created_at).toLocaleString()}</p>
-                    </div>
-                    <span className="text-emerald-400 font-bold">{scan.total_score}/100</span>
-                  </div>
-                ))}
-              </div>
+              <div className="space-y-2">{history.map(scan => (
+                <div key={scan.id} onClick={() => { setScanDetails(scan.details); setScanDetailsOpen(true); }} className="flex justify-between items-center p-3 bg-slate-900 rounded-xl cursor-pointer hover:bg-slate-700 transition-colors duration-200">
+                  <div><p className="text-sm font-medium">{scan.url}</p><p className="text-xs text-slate-500">{new Date(scan.created_at).toLocaleString()}</p></div>
+                  <span className="text-emerald-400 font-bold">{scan.total_score}/100</span>
+                </div>
+              ))}</div>
             )}
           </div>
         )}
@@ -456,6 +416,7 @@ export default function Home() {
                       <button onClick={handleOneTimePayment} disabled={oneTimeLoading} className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl transition-colors duration-300 flex items-center gap-2">{oneTimeLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}{t.results.buyGeneration}</button>
                     </div>
                   )}
+                  <button onClick={handleBuyScanPack} className="px-5 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl transition-colors duration-300 flex items-center gap-2"><ShoppingCart className="w-4 h-4" /> {t.results.buyScanPack}</button>
                   <button onClick={() => setCompareOpen(true)} className="px-5 py-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl transition-colors duration-300 flex items-center gap-2"><Swords className="w-4 h-4" /> {t.results.compareCompetitors}</button>
                 </div>
               </div>

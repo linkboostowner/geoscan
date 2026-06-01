@@ -19,26 +19,37 @@ export async function POST(request) {
     return NextResponse.json({ error: err.message }, { status: 400 });
   }
 
-  // Обработка подписки PRO
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
+    
+    // Пакет сканов – пополняем extra_scans в Supabase
+    if (session.metadata?.type === 'scan_pack') {
+      const userId = session.metadata.user_id || session.client_reference_id;
+      if (userId) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('extra_scans')
+          .eq('id', userId)
+          .single();
+        
+        const currentExtra = profile?.extra_scans || 0;
+        await supabase
+          .from('profiles')
+          .upsert({ id: userId, extra_scans: currentExtra + 10 }, { onConflict: 'id' });
+      }
+    }
+
+    // Подписка PRO – обновляем статус (существующая логика)
     if (session.mode === 'subscription') {
       const userId = session.client_reference_id;
-      await supabase.from('profiles').upsert({
-        id: userId,
-        stripe_customer_id: session.customer,
-        subscription_status: 'active',
-        updated_at: new Date(),
-      });
-    } else if (session.mode === 'payment' && session.metadata?.type === 'ai_generation') {
-      // Разовая оплата — просто логируем, доступ выдадим через временный токен
-      const userId = session.client_reference_id;
-      await supabase.from('one_time_purchases').insert({
-        user_id: userId,
-        session_id: session.id,
-        url: session.metadata.url,
-        created_at: new Date(),
-      });
+      if (userId) {
+        await supabase.from('profiles').upsert({
+          id: userId,
+          stripe_customer_id: session.customer,
+          subscription_status: 'active',
+          updated_at: new Date(),
+        });
+      }
     }
   }
 
