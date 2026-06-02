@@ -316,7 +316,11 @@ export default function Home() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2"><MapPin className="w-8 h-8 text-emerald-400" /><span className="text-2xl font-bold tracking-tight">GeoScan</span></div>
           <div className="flex items-center gap-3">
-            <a href="https://georank-tracker.vercel.app" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl text-sm text-slate-300 transition-colors duration-200 flex items-center gap-2"><BarChart3 className="w-4 h-4 text-blue-400" />GeoRank Tracker</a>
+            {/* Внутренняя ссылка на Rank Tracker */}
+            <a href="/rank-tracker" className="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl text-sm text-slate-300 transition-colors duration-200 flex items-center gap-2">
+              <BarChart3 className="w-4 h-4 text-blue-400" />
+              Rank Tracker
+            </a>
             <a href="/blog" title="Blog" className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors duration-200"><BookOpen className="w-4 h-4" /></a>
             <LanguageSwitcher locale={locale} setLocale={setLocale} />
             {!session ? (
@@ -338,6 +342,7 @@ export default function Home() {
             )}
           </div>
         </div>
+        {/* Hero, Live Example, Scan Input, Results, Modals – всё без изменений */}
         <div className="relative rounded-3xl bg-gradient-to-br from-emerald-500/10 via-slate-800/50 to-purple-500/10 p-10 text-center border border-slate-700 shadow-2xl">
           <div className="absolute inset-0 bg-grid-slate-800/[0.05] rounded-3xl" />
           <div className="relative space-y-4">
