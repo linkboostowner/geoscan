@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Search, Loader2, TrendingUp, ArrowRight, Zap, Check, Shield, BarChart3, Globe, Sparkles, Mail, LogOut, Swords } from 'lucide-react';
+import { Search, Loader2, TrendingUp, ArrowRight, Zap, Check, Shield, BarChart3, Globe, Mail, LogOut, Swords, Scan } from 'lucide-react';
 import { supabase } from '@/lib/supabaseClient';
 
 const translations = {
@@ -118,6 +118,11 @@ export default function Home() {
     } catch (err) { alert('Comparison failed: ' + err.message); } finally { setCompareLoading(false); }
   };
 
+  const handleAudit = () => {
+    if (!url) return;
+    window.open(`/?url=${encodeURIComponent(url)}`, '_blank');
+  };
+
   if (!ready) return null;
 
   return (
@@ -127,6 +132,7 @@ export default function Home() {
           <div className="flex items-center gap-2"><Globe className="w-5 h-5 text-blue-400" /><span className="text-sm font-medium">GeoRank</span></div>
           <div className="flex items-center gap-3">
             <LanguageSwitcher locale={locale} setLocale={setLocale} />
+            <button onClick={handleAudit} disabled={!url} className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-xl transition-colors duration-200 flex items-center gap-1 disabled:opacity-50" title={t.audit.tooltip}><Scan className="w-4 h-4" /> {t.audit.button}</button>
             <button onClick={() => setCompareOpen(true)} disabled={!results} className="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white text-sm font-semibold rounded-xl transition-colors duration-200 flex items-center gap-1"><Swords className="w-4 h-4" /> {t.compare.button}</button>
             {!session ? (
               <div className="flex items-center gap-2">
