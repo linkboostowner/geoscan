@@ -284,7 +284,7 @@ export default function Home() {
           <div className="relative space-y-4">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight">{t.hero.title}{' '}<span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">{t.hero.subtitle}</span></h1>
             <p className="text-lg text-slate-300 max-w-2xl mx-auto">{t.hero.description}</p>
-            <div className="flex items-center justify-center gap-6 text-sm text-slate-400"><span className="flex items-center gap-1"><Check className="w-4 h-4 text-emerald-400" /> {t.hero.freeScans}</span><span className="flex items-center gap-1"><Zap className="w-4 h-4 text-amber-400" /> {t.hero.fast}</span><span className="flex items-center gap-1"><Sparkles className="w-4 h-4 text-purple-400" /> {t.hero.pro}</span></div>
+            <div className="flex items-center justify-center gap-6 text-sm text-slate-400"><span className="flex items-center gap-1"><Check className="w-4 h-4 text-emerald-400" /> {t.hero.freeScans}</span><span className="flex items-center gap-1"><Zap className="w-4 h-4 text-amber-400" /> {t.hero.fast} 
           </div>
         </div>
         {!results && (
