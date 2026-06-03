@@ -5,19 +5,18 @@ import { jsPDF } from 'jspdf';
 import { supabase } from '@/lib/supabaseClient';
 import {
   Scan, Zap, Shield, FileText, FolderTree, Tag, Share2, Code,
-  History, LogOut, Mail, ChevronRight, Check, AlertTriangle, X, Sparkles,
+  History, LogOut, Mail, ChevronRight, Check, AlertTriangle, X,
   MapPin, ArrowRight, Loader2, MessageSquare, Wand2, Copy, Download, Swords,
-  BookOpen, ChevronDown, BarChart3, Gift, ShoppingCart, Info
+  BookOpen, ChevronDown, BarChart3, Info
 } from 'lucide-react';
 
 // ==================== ПЕРЕВОДЫ ====================
 const translations = {
   en: {
-    hero: { title: 'Is Your Site Ready for', subtitle: 'AI Search?', description: 'AI search engines like ChatGPT and Perplexity now drive 30% of organic traffic. Most sites are completely invisible to them. Find out where you stand in 60 seconds.', freeScans: '3 free scans/month', fast: 'Fast', pro: 'PRO: unlimited + history + PDF' },
+    hero: { title: 'Is Your Site Ready for', subtitle: 'AI Search?', description: 'AI search engines like ChatGPT and Perplexity now drive 30% of organic traffic. Most sites are completely invisible to them. Find out where you stand in 60 seconds.', freeScans: 'Free for everyone', fast: 'Fast', pro: 'AI-powered insights' },
     scan: { placeholder: 'Enter URL (e.g. yoursite.com)', button: 'Scan', scanning: 'Scanning...' },
     login: { placeholder: 'you@example.com', button: 'Sign In', sending: 'Sending...', checkEmail: 'Check your email! We sent a magic link.' },
-    upgrade: { button: 'Upgrade', title: 'Upgrade to PRO', unlimitedScans: 'Unlimited scans', fullHistory: 'Full history', pdfExport: 'PDF export', prioritySupport: 'Priority support', price: '$39/month', subscribeButton: 'Subscribe with Stripe', maybeLater: 'Maybe later' },
-    results: { geoScore: 'Your GEO Score', average: 'Average in your niche (SaaS): 65%', improvements: 'Improvements needed', onTrack: 'You are on the right track!', exportPdf: 'Export PDF', share: 'Share', aiAssistant: 'AI Assistant', generateFixes: 'Generate Fixes (AI)', aiFixesPro: 'AI Fixes (PRO)', buyGeneration: 'Buy generation for $9.99', compareCompetitors: 'Compare with competitors', shareForScans: 'Share & Get +3 Scans', buyScanPack: 'Buy 10 Scans — $4.99' },
+    results: { geoScore: 'Your GEO Score', average: 'Average in your niche (SaaS): 65%', improvements: 'Improvements needed', onTrack: 'You are on the right track!', exportPdf: 'Export PDF', share: 'Share', aiAssistant: 'AI Assistant', generateFixes: 'Generate Fixes (AI)', compareCompetitors: 'Compare with competitors', shareForScans: 'Share & Get +3 Scans' },
     history: { title: 'Recent Scans', noScans: 'No scans yet.' },
     aiAssistant: { title: 'AI Assistant', placeholder: 'Ask about your report...', send: 'Send', thinking: 'Thinking...' },
     aiFixes: { title: 'AI-Generated Fixes', copy: 'Copy', download: 'Download', close: 'Close' },
@@ -27,11 +26,10 @@ const translations = {
     drillDown: { title: 'GEO Score Breakdown', howItWorks: 'Each module contributes to your total GEO Score (max 100). Click on any module to see details and recommended actions with estimated impact.', close: 'Close', impact: 'Estimated impact' }
   },
   ru: {
-    hero: { title: 'Готов ли ваш сайт к', subtitle: 'AI-поиску?', description: 'ChatGPT, Perplexity и другие AI-поисковики уже дают 30% трафика. Большинство сайтов для них невидимы. Узнайте, где вы находитесь, за 60 секунд.', freeScans: '3 бесплатных скана/мес', fast: 'Быстро', pro: 'PRO: безлимит + история + PDF' },
+    hero: { title: 'Готов ли ваш сайт к', subtitle: 'AI-поиску?', description: 'ChatGPT, Perplexity и другие AI-поисковики уже дают 30% трафика. Большинство сайтов для них невидимы. Узнайте, где вы находитесь, за 60 секунд.', freeScans: 'Бесплатно для всех', fast: 'Быстро', pro: 'AI-инструмент нового поколения' },
     scan: { placeholder: 'Введите URL (например, yoursite.com)', button: 'Сканировать', scanning: 'Сканируем...' },
     login: { placeholder: 'you@example.com', button: 'Войти', sending: 'Отправка...', checkEmail: 'Проверьте почту! Мы отправили волшебную ссылку.' },
-    upgrade: { button: 'Upgrade', title: 'Обновитесь до PRO', unlimitedScans: 'Безлимитные сканирования', fullHistory: 'Полная история', pdfExport: 'Экспорт PDF', prioritySupport: 'Приоритетная поддержка', price: '$39/мес', subscribeButton: 'Подписаться через Stripe', maybeLater: 'Может, позже' },
-    results: { geoScore: 'Ваш GEO Score', average: 'Средний показатель в вашей нише (SaaS): 65%', improvements: 'Требуются улучшения', onTrack: 'Вы на правильном пути!', exportPdf: 'Экспорт PDF', share: 'Поделиться', aiAssistant: 'AI-помощник', generateFixes: 'Сгенерировать исправления (AI)', aiFixesPro: 'AI-исправления (PRO)', buyGeneration: 'Купить генерацию за $9.99', compareCompetitors: 'Сравнить с конкурентами', shareForScans: 'Поделись и получи +3 скана', buyScanPack: 'Купить 10 сканов — $4.99' },
+    results: { geoScore: 'Ваш GEO Score', average: 'Средний показатель в вашей нише (SaaS): 65%', improvements: 'Требуются улучшения', onTrack: 'Вы на правильном пути!', exportPdf: 'Экспорт PDF', share: 'Поделиться', aiAssistant: 'AI-помощник', generateFixes: 'Сгенерировать исправления (AI)', compareCompetitors: 'Сравнить с конкурентами', shareForScans: 'Поделись и получи +3 скана' },
     history: { title: 'Недавние сканирования', noScans: 'Пока нет сканирований.' },
     aiAssistant: { title: 'AI-помощник', placeholder: 'Спросите о вашем отчёте...', send: 'Отправить', thinking: 'Думаю...' },
     aiFixes: { title: 'AI-сгенерированные исправления', copy: 'Копировать', download: 'Скачать', close: 'Закрыть' },
@@ -44,7 +42,6 @@ const translations = {
 
 const statusColors = { good: 'text-emerald-400', ok: 'text-amber-400', warning: 'text-orange-400', bad: 'text-red-400' };
 const statusPdfColors = { good: '#10b981', ok: '#f59e0b', warning: '#f97316', bad: '#ef4444' };
-const FREE_LIMIT = 3;
 
 const moduleInfo = {
   'robots.txt': 'Проверяет, разрешён ли доступ AI-ботам к вашему сайту.',
@@ -67,7 +64,6 @@ function LanguageSwitcher({ locale, setLocale }) {
 export default function Home() {
   const [locale, setLocale] = useState('en');
   const [ready, setReady] = useState(false);
-  const [extraScans, setExtraScans] = useState(0);
   const [sharedUrls, setSharedUrls] = useState({});
   const [drillDownOpen, setDrillDownOpen] = useState(false);
   const [selectedModule, setSelectedModule] = useState(null);
@@ -75,15 +71,12 @@ export default function Home() {
   useEffect(() => {
     const saved = localStorage.getItem('locale');
     if (saved === 'en' || saved === 'ru') setLocale(saved);
-    const savedExtra = localStorage.getItem('geoscan-extra-scans');
-    if (savedExtra) setExtraScans(parseInt(savedExtra) || 0);
     const savedShared = localStorage.getItem('geoscan-shared-urls');
     if (savedShared) setSharedUrls(JSON.parse(savedShared));
     setReady(true);
   }, []);
 
   useEffect(() => { localStorage.setItem('locale', locale); }, [locale]);
-  useEffect(() => { localStorage.setItem('geoscan-extra-scans', extraScans.toString()); }, [extraScans]);
   useEffect(() => { localStorage.setItem('geoscan-shared-urls', JSON.stringify(sharedUrls)); }, [sharedUrls]);
 
   const t = translations[locale];
@@ -97,7 +90,6 @@ export default function Home() {
   const [authLoading, setAuthLoading] = useState(false);
   const [history, setHistory] = useState([]);
   const [showHistory, setShowHistory] = useState(false);
-  const [showPricing, setShowPricing] = useState(false);
   const [profile, setProfile] = useState(null);
   const [chatOpen, setChatOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
@@ -110,16 +102,15 @@ export default function Home() {
   const [competitors, setCompetitors] = useState(['', '', '']);
   const [compareResults, setCompareResults] = useState(null);
   const [compareLoading, setCompareLoading] = useState(false);
-  const [oneTimeLoading, setOneTimeLoading] = useState(false);
   const [faqOpen, setFaqOpen] = useState(null);
   const [scanDetailsOpen, setScanDetailsOpen] = useState(false);
   const [scanDetails, setScanDetails] = useState(null);
 
   const faqItems = [
     { question: locale === 'ru' ? 'Что проверяет GeoScan?' : 'What does GeoScan check?', answer: locale === 'ru' ? 'GeoScan проверяет 6 ключевых факторов: robots.txt для AI-краулеров, llms.txt, sitemap.xml, мета-теги, Open Graph разметку и Schema.org структурированные данные. Все проверки занимают около 60 секунд.' : 'GeoScan checks 6 key factors: robots.txt for AI crawlers, llms.txt, sitemap.xml, meta tags, Open Graph markup, and Schema.org structured data. All checks take about 60 seconds.' },
-    { question: locale === 'ru' ? 'Это бесплатно?' : 'Is it free?', answer: locale === 'ru' ? 'Да, первые 3 сканирования в месяц бесплатны и не требуют регистрации. Для unlimited доступа и AI-функций есть PRO-подписка за $39/мес.' : 'Yes, the first 3 scans per month are free and require no registration. For unlimited access and AI features, there is a PRO subscription at $39/month.' },
+    { question: locale === 'ru' ? 'Это бесплатно?' : 'Is it free?', answer: locale === 'ru' ? 'Да, сейчас GeoScan полностью бесплатен для всех пользователей.' : 'Yes, GeoScan is currently free for everyone.' },
     { question: locale === 'ru' ? 'Чем GeoScan отличается от SEO-инструментов?' : 'How is GeoScan different from SEO tools?', answer: locale === 'ru' ? 'Традиционные SEO-инструменты фокусируются на Google. GeoScan специализируется на AI-поисковиках — ChatGPT, Perplexity, Google AI Overviews. Мы проверяем специфические для AI факторы, такие как llms.txt и доступ для GPTBot.' : 'Traditional SEO tools focus on Google. GeoScan specializes in AI search engines — ChatGPT, Perplexity, Google AI Overviews. We check AI-specific factors like llms.txt and GPTBot access.' },
-    { question: locale === 'ru' ? 'Нужно ли регистрироваться?' : 'Do I need to register?', answer: locale === 'ru' ? 'Нет, для первых 3 сканов регистрация не нужна. Если хотите сохранять историю и использовать PRO-функции, потребуется войти через email.' : 'No, the first 3 scans require no registration. If you want to save history and use PRO features, you will need to log in via email.' },
+    { question: locale === 'ru' ? 'Нужно ли регистрироваться?' : 'Do I need to register?', answer: locale === 'ru' ? 'Нет, вы можете использовать GeoScan без регистрации.' : 'No, you can use GeoScan without registration.' },
   ];
 
   useEffect(() => {
@@ -130,22 +121,14 @@ export default function Home() {
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       if (session) { fetchProfile(session.user.id); fetchHistory(session.user.id); }
-      else { setProfile(null); setHistory([]); setExtraScans(0); }
+      else { setProfile(null); setHistory([]); }
     });
     return () => listener.subscription.unsubscribe();
   }, []);
 
   const fetchProfile = async (userId) => {
     const { data } = await supabase.from('profiles').select('*').eq('id', userId).single();
-    if (data) {
-      setProfile(data);
-      if (data.extra_scans) {
-        setExtraScans(data.extra_scans);
-        localStorage.setItem('geoscan-extra-scans', data.extra_scans.toString());
-      }
-    } else {
-      setProfile({ id: userId, subscription_status: 'inactive' });
-    }
+    setProfile(data || { id: userId, subscription_status: 'inactive' });
   };
 
   const fetchHistory = async (userId) => {
@@ -162,18 +145,10 @@ export default function Home() {
     else alert(t.login.checkEmail);
   };
 
-  const handleLogout = async () => { await supabase.auth.signOut(); setSession(null); setProfile(null); setHistory([]); setExtraScans(0); };
+  const handleLogout = async () => { await supabase.auth.signOut(); setSession(null); setProfile(null); setHistory([]); };
 
   const handleScan = async () => {
     if (!url) return;
-    if (session && (!profile || profile.subscription_status !== 'active')) {
-      const thisMonth = new Date().getMonth(); const thisYear = new Date().getFullYear();
-      const monthlyScans = history.filter(s => new Date(s.created_at).getMonth() === thisMonth && new Date(s.created_at).getFullYear() === thisYear);
-      if (monthlyScans.length >= FREE_LIMIT + extraScans) {
-        alert(locale === 'ru' ? 'Вы достигли лимита бесплатных сканирований. Обновитесь до PRO или купите пакет сканов.' : 'You have reached the free scan limit. Upgrade to PRO or buy a scan pack.');
-        setShowPricing(true); return;
-      }
-    }
     setLoading(true); setError(''); setResults(null); setCompareResults(null);
     try {
       const res = await fetch('/api/scan', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url }) });
@@ -184,34 +159,6 @@ export default function Home() {
         fetchHistory(session.user.id);
       }
     } catch (err) { setError(err.message); } finally { setLoading(false); }
-  };
-
-  const handleUpgrade = async () => {
-    if (!session) return alert('Пожалуйста, войдите сначала');
-    try {
-      const res = await fetch('/api/create-checkout-session', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ priceId: 'price_1TbcxTBnnj8yRRWUOY0MnOk8', userId: session.user.id }) });
-      const data = await res.json(); if (data.url) window.location.href = data.url; else alert(data.error);
-    } catch (err) { alert(err.message); }
-  };
-
-  const handleOneTimePayment = async () => {
-    if (!session) return alert('Пожалуйста, войдите сначала');
-    if (!url || !results) return alert('Сначала выполните сканирование');
-    setOneTimeLoading(true);
-    try {
-      const res = await fetch('/api/create-onetime-payment', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId: session.user.id, url }) });
-      const data = await res.json(); if (data.url) window.location.href = data.url; else alert(data.error);
-    } catch (err) { alert(err.message); } finally { setOneTimeLoading(false); }
-  };
-
-  const handleBuyScanPack = async () => {
-    try {
-      const res = await fetch('/api/buy-scans', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ priceId: 'price_1TdYJQBnnj8yRRWUAb5gEbi4', userId: session?.user?.id || '' }),
-      });
-      const data = await res.json(); if (data.url) window.location.href = data.url; else alert(data.error);
-    } catch (err) { alert(err.message); }
   };
 
   const handleExportPDF = () => {
@@ -251,7 +198,6 @@ export default function Home() {
     if (!results || sharedUrls[url]) return;
     const text = locale === 'ru' ? `Я только что проверил свой сайт в GeoScan и получил GEO Score ${results.totalScore}/100. Проверь свой бесплатно: https://geoscan-a.vercel.app` : `I just checked my site on GeoScan and got a GEO Score of ${results.totalScore}/100. Check yours for free: https://geoscan-a.vercel.app`;
     if (navigator.share) { navigator.share({ title: 'GeoScan Report', text }).catch(() => {}); } else { window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank'); }
-    setExtraScans(prev => prev + 3);
     setSharedUrls(prev => ({ ...prev, [url]: true }));
     alert(t.shareBonus.thanks);
   };
@@ -287,7 +233,6 @@ export default function Home() {
     setDrillDownOpen(true);
   };
 
-  // Функция modules определена ДО использования в JSX
   const modules = (data) => data ? [
     { label: 'robots.txt', data: data.robots, max: 25, icon: Shield },
     { label: 'llms.txt', data: data.llms, max: 20, icon: FileText },
@@ -297,7 +242,6 @@ export default function Home() {
     { label: 'Schema.org', data: data.schema, max: 15, icon: Code },
   ] : [];
 
-  // --- АВТОСКАНИРОВАНИЕ ПРИ ПЕРЕХОДЕ С ПАРАМЕТРОМ ?url=... ---
   useEffect(() => {
     if (!ready || typeof window === 'undefined') return;
     const params = new URLSearchParams(window.location.search);
@@ -316,10 +260,8 @@ export default function Home() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2"><MapPin className="w-8 h-8 text-emerald-400" /><span className="text-2xl font-bold tracking-tight">GeoScan</span></div>
           <div className="flex items-center gap-3">
-            {/* Внутренняя ссылка на Rank Tracker */}
             <a href="/rank-tracker" className="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl text-sm text-slate-300 transition-colors duration-200 flex items-center gap-2">
-              <BarChart3 className="w-4 h-4 text-blue-400" />
-              Rank Tracker
+              <BarChart3 className="w-4 h-4 text-blue-400" /> Rank Tracker
             </a>
             <a href="/blog" title="Blog" className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors duration-200"><BookOpen className="w-4 h-4" /></a>
             <LanguageSwitcher locale={locale} setLocale={setLocale} />
@@ -331,18 +273,12 @@ export default function Home() {
             ) : (
               <div className="flex items-center gap-3">
                 <span className="text-sm text-slate-300">{session.user.email}</span>
-                {profile?.subscription_status === 'active' ? (
-                  <span className="flex items-center gap-1 px-3 py-1 bg-emerald-500/20 text-emerald-400 rounded-full text-xs font-bold"><Sparkles className="w-3 h-3" /> PRO</span>
-                ) : (
-                  <button onClick={() => setShowPricing(true)} className="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-xl transition-colors duration-200">{t.upgrade.button}</button>
-                )}
                 <button onClick={() => setShowHistory(!showHistory)} className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors duration-200" title={t.history.title}><History className="w-4 h-4" /></button>
                 <button onClick={handleLogout} className="p-2 rounded-xl bg-slate-800 hover:bg-red-800 text-slate-300 transition-colors duration-200" title="Выйти"><LogOut className="w-4 h-4" /></button>
               </div>
             )}
           </div>
         </div>
-        {/* Hero, Live Example, Scan Input, Results, Modals – всё без изменений */}
         <div className="relative rounded-3xl bg-gradient-to-br from-emerald-500/10 via-slate-800/50 to-purple-500/10 p-10 text-center border border-slate-700 shadow-2xl">
           <div className="absolute inset-0 bg-grid-slate-800/[0.05] rounded-3xl" />
           <div className="relative space-y-4">
@@ -372,25 +308,6 @@ export default function Home() {
           </div>
         </div>
         {error && <div className="text-center text-red-400 bg-red-900/20 p-4 rounded-xl flex items-center justify-center gap-2"><AlertTriangle className="w-5 h-5" /> {error}</div>}
-        {showPricing && (
-          <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50" onClick={() => setShowPricing(false)}>
-            <div className="bg-slate-800 border border-slate-700 rounded-2xl p-8 w-full max-w-md shadow-2xl" onClick={e => e.stopPropagation()}>
-              <div className="text-center space-y-4">
-                <div className="w-16 h-16 bg-emerald-500/20 rounded-2xl flex items-center justify-center mx-auto"><Sparkles className="w-8 h-8 text-emerald-400" /></div>
-                <h2 className="text-2xl font-bold">{t.upgrade.title}</h2>
-                <ul className="space-y-2 text-sm text-slate-300 text-left">
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> {t.upgrade.unlimitedScans}</li>
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> {t.upgrade.fullHistory}</li>
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> {t.upgrade.pdfExport}</li>
-                  <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> {t.upgrade.prioritySupport}</li>
-                </ul>
-                <div className="text-4xl font-bold">{t.upgrade.price}</div>
-                <button onClick={handleUpgrade} className="w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded-xl transition-colors duration-300 flex items-center justify-center gap-2">{t.upgrade.subscribeButton} <ArrowRight className="w-4 h-4" /></button>
-                <button onClick={() => setShowPricing(false)} className="text-sm text-slate-400 hover:text-white">{t.upgrade.maybeLater}</button>
-              </div>
-            </div>
-          </div>
-        )}
         {session && showHistory && (
           <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6">
             <h2 className="text-xl font-semibold mb-4 flex items-center gap-2"><History className="w-5 h-5" /> {t.history.title}</h2>
@@ -432,17 +349,8 @@ export default function Home() {
                 <div className="flex flex-wrap justify-center gap-4 mt-6">
                   <button onClick={(e) => { e.stopPropagation(); handleExportPDF(); }} className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl transition-colors duration-300 flex items-center gap-2"><FileText className="w-4 h-4" /> {t.results.exportPdf}</button>
                   <button onClick={(e) => { e.stopPropagation(); handleShare(); }} className="px-5 py-2.5 border border-slate-600 hover:border-slate-400 text-white rounded-xl transition-colors duration-300 flex items-center gap-2"><Share2 className="w-4 h-4" /> {t.results.share}</button>
-                  <button onClick={(e) => { e.stopPropagation(); handleShareForScans(); }} disabled={sharedUrls[url]} className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl transition-colors duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"><Gift className="w-4 h-4" /> {t.results.shareForScans}</button>
                   <button onClick={(e) => { e.stopPropagation(); setChatOpen(true); }} className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl transition-colors duration-300 flex items-center gap-2"><MessageSquare className="w-4 h-4" /> {t.results.aiAssistant}</button>
-                  {profile?.subscription_status === 'active' ? (
-                    <button onClick={(e) => { e.stopPropagation(); handleGenerateFixes(); }} disabled={fixesLoading} className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl transition-colors duration-300 flex items-center gap-2">{fixesLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}{t.results.generateFixes}</button>
-                  ) : (
-                    <div className="flex gap-2">
-                      <button onClick={(e) => { e.stopPropagation(); setShowPricing(true); }} className="px-5 py-2.5 bg-slate-600 hover:bg-slate-500 text-white rounded-xl transition-colors duration-300 flex items-center gap-2"><Wand2 className="w-4 h-4" /> {t.results.aiFixesPro}</button>
-                      <button onClick={(e) => { e.stopPropagation(); handleOneTimePayment(); }} disabled={oneTimeLoading} className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl transition-colors duration-300 flex items-center gap-2">{oneTimeLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}{t.results.buyGeneration}</button>
-                    </div>
-                  )}
-                  <button onClick={(e) => { e.stopPropagation(); handleBuyScanPack(); }} className="px-5 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl transition-colors duration-300 flex items-center gap-2"><ShoppingCart className="w-4 h-4" /> {t.results.buyScanPack}</button>
+                  <button onClick={(e) => { e.stopPropagation(); handleGenerateFixes(); }} disabled={fixesLoading} className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl transition-colors duration-300 flex items-center gap-2">{fixesLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}{t.results.generateFixes}</button>
                   <button onClick={(e) => { e.stopPropagation(); setCompareOpen(true); }} className="px-5 py-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl transition-colors duration-300 flex items-center gap-2"><Swords className="w-4 h-4" /> {t.results.compareCompetitors}</button>
                 </div>
               </div>
