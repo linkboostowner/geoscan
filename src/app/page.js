@@ -7,7 +7,7 @@ import {
   Scan, Zap, Shield, FileText, FolderTree, Tag, Share2, Code,
   History, LogOut, Mail, ChevronRight, Check, AlertTriangle, X,
   MapPin, ArrowRight, Loader2, MessageSquare, Wand2, Copy, Download, Swords,
-  BookOpen, ChevronDown, BarChart3, Info
+  BookOpen, ChevronDown, BarChart3, Info, Globe
 } from 'lucide-react';
 
 const translations = {
@@ -286,7 +286,7 @@ export default function Home() {
             <div className="flex items-center justify-center gap-6 text-sm text-slate-400">
               <span className="flex items-center gap-1"><Check className="w-4 h-4 text-emerald-400" /> {t.hero.freeScans}</span>
               <span className="flex items-center gap-1"><Zap className="w-4 h-4 text-amber-400" /> {t.hero.fast}</span>
-              <span className="flex items-center gap-1"><Sparkles className="w-4 h-4 text-purple-400" /> {t.hero.pro}</span>
+              <span className="flex items-center gap-1"><Globe className="w-4 h-4 text-purple-400" /> {t.hero.pro}</span>
             </div>
           </div>
         </div>
