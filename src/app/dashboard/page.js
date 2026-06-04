@@ -2,27 +2,55 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabaseClient';
-import { BarChart3, TrendingUp, TrendingDown, Activity, ArrowRight } from 'lucide-react';
+import { BarChart3, TrendingUp, TrendingDown, Activity, ArrowRight, Plus, Trash2, Calendar } from 'lucide-react';
 
 export default function Dashboard() {
   const [session, setSession] = useState(null);
   const [history, setHistory] = useState([]);
+  const [scheduled, setScheduled] = useState([]);
+  const [newUrl, setNewUrl] = useState('');
+  const [newEmail, setNewEmail] = useState('');
+  const [newFreq, setNewFreq] = useState('weekly');
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
-      if (session) fetchHistory(session.user.id);
+      if (session) {
+        fetchHistory(session.user.id);
+        fetchScheduled(session.user.id);
+      }
     });
   }, []);
 
   const fetchHistory = async (userId) => {
-    const { data } = await supabase
-      .from('scans')
-      .select('*')
-      .eq('user_id', userId)
-      .order('created_at', { ascending: false })
-      .limit(20);
+    const { data } = await supabase.from('scans').select('*').eq('user_id', userId).order('created_at', { ascending: false }).limit(20);
     if (data) setHistory(data);
+  };
+
+  const fetchScheduled = async (userId) => {
+    const { data } = await supabase.from('scheduled_reports').select('*').eq('user_id', userId).order('created_at', { ascending: false });
+    if (data) setScheduled(data);
+  };
+
+  const handleAddSchedule = async () => {
+    if (!newUrl) return;
+    const res = await fetch('/api/schedule', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: newUrl, email: newEmail, frequency: newFreq }),
+    });
+    if (res.ok) {
+      setNewUrl('');
+      setNewEmail('');
+      fetchScheduled(session.user.id);
+    } else {
+      alert('Failed to add schedule');
+    }
+  };
+
+  const handleDelete = async (id) => {
+    await supabase.from('scheduled_reports').delete().eq('id', id);
+    fetchScheduled(session.user.id);
   };
 
   if (!session) {
@@ -42,9 +70,7 @@ export default function Dashboard() {
 
   const latestScan = history[0];
   const previousScan = history[1];
-  const trend = latestScan && previousScan
-    ? latestScan.total_score - previousScan.total_score
-    : 0;
+  const trend = latestScan && previousScan ? latestScan.total_score - previousScan.total_score : 0;
 
   return (
     <main className="min-h-screen bg-slate-950 text-white px-4 py-16">
@@ -71,25 +97,47 @@ export default function Dashboard() {
           <div className="p-6 bg-slate-800 border border-slate-700 rounded-2xl text-center">
             <p className="text-sm text-slate-400 mb-2">Trend</p>
             <div className="flex items-center justify-center gap-1">
-              {trend > 0 ? (
-                <TrendingUp className="w-5 h-5 text-emerald-400" />
-              ) : trend < 0 ? (
-                <TrendingDown className="w-5 h-5 text-red-400" />
-              ) : (
-                <Activity className="w-5 h-5 text-amber-400" />
-              )}
-              <p className={`text-3xl font-bold ${trend > 0 ? 'text-emerald-400' : trend < 0 ? 'text-red-400' : 'text-amber-400'}`}>
-                {trend > 0 ? '+' : ''}{trend}
-              </p>
+              {trend > 0 ? <TrendingUp className="w-5 h-5 text-emerald-400" /> : trend < 0 ? <TrendingDown className="w-5 h-5 text-red-400" /> : <Activity className="w-5 h-5 text-amber-400" />}
+              <p className={`text-3xl font-bold ${trend > 0 ? 'text-emerald-400' : trend < 0 ? 'text-red-400' : 'text-amber-400'}`}>{trend > 0 ? '+' : ''}{trend}</p>
             </div>
           </div>
           <div className="p-6 bg-slate-800 border border-slate-700 rounded-2xl text-center">
-            <p className="text-sm text-slate-400 mb-2">Tracked Sites</p>
-            <p className="text-3xl font-bold text-emerald-400">
-              {[...new Set(history.map(s => s.url))].length}
-            </p>
+            <p className="text-sm text-slate-400 mb-2">Scheduled Reports</p>
+            <p className="text-3xl font-bold text-emerald-400">{scheduled.length}</p>
           </div>
         </div>
+
+        {/* Schedule Form */}
+        <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6">
+          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2"><Calendar className="w-5 h-5 text-cyan-400" /> Schedule a Report</h2>
+          <div className="flex flex-wrap gap-2 mb-4">
+            <input type="url" placeholder="https://example.com" className="flex-1 min-w-[200px] px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white outline-none" value={newUrl} onChange={(e) => setNewUrl(e.target.value)} />
+            <input type="email" placeholder="you@example.com" className="flex-1 min-w-[200px] px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white outline-none" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />
+            <select className="px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white outline-none" value={newFreq} onChange={(e) => setNewFreq(e.target.value)}>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+            </select>
+            <button onClick={handleAddSchedule} className="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg transition-colors flex items-center gap-1"><Plus className="w-4 h-4" /> Add</button>
+          </div>
+        </div>
+
+        {/* Scheduled Reports List */}
+        {scheduled.length > 0 && (
+          <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6">
+            <h2 className="text-xl font-semibold mb-4">Your Scheduled Reports</h2>
+            <div className="space-y-2">
+              {scheduled.map(item => (
+                <div key={item.id} className="flex justify-between items-center p-3 bg-slate-900 rounded-lg">
+                  <div>
+                    <p className="text-sm font-medium text-white">{item.url}</p>
+                    <p className="text-xs text-slate-400">{item.frequency} · {item.email || 'No email'}</p>
+                  </div>
+                  <button onClick={() => handleDelete(item.id)} className="p-2 text-red-400 hover:text-red-300"><Trash2 className="w-4 h-4" /></button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Recent Scans Table */}
         <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6">
