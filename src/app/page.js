@@ -263,6 +263,9 @@ export default function Home() {
               <BarChart3 className="w-4 h-4 text-blue-400" /> Rank Tracker
             </a>
             <a href="/blog" title="Blog" className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors duration-200"><BookOpen className="w-4 h-4" /></a>
+<a href="/dashboard" title="Dashboard" className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors duration-200">
+  <BarChart3 className="w-4 h-4" />
+</a>
             <LanguageSwitcher locale={locale} setLocale={setLocale} />
             {!session ? (
               <div className="flex items-center gap-2">
