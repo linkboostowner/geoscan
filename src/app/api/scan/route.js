@@ -17,9 +17,9 @@ export async function POST(request) {
       openGraph: { score: 0, details: '', status: 'pending' },
       schema: { score: 0, details: '', status: 'pending' },
       totalScore: 0,
+      entityAnalysis: null,
     };
 
-    // Расширенный список AI‑краулеров
     const aiCrawlers = {
       'GPTBot': 'ChatGPT (OpenAI)',
       'PerplexityBot': 'Perplexity',
@@ -27,19 +27,17 @@ export async function POST(request) {
       'Claude-Web': 'Claude (Anthropic)',
     };
 
-    // Инициализируем статусы как unknown
     for (const bot of Object.keys(aiCrawlers)) {
       results.robots.crawlers[bot] = { status: 'unknown', label: aiCrawlers[bot] };
     }
 
-    // --- 1. robots.txt (с детекцией всех AI‑краулеров) ---
+    // --- robots.txt ---
     try {
       const res = await fetchWithTimeout(`${baseUrl}/robots.txt`);
       if (res.ok) {
         const text = await res.text();
         const lines = text.split(/\r?\n/);
         let currentAgent = '';
-
         for (let line of lines) {
           line = line.trim().toLowerCase();
           if (line.startsWith('user-agent:')) {
@@ -71,14 +69,11 @@ export async function POST(request) {
             }
           }
         }
-
-        // Если нет явных правил и нет общего запрета → считаем allowed
         for (const bot of Object.keys(aiCrawlers)) {
           if (results.robots.crawlers[bot].status === 'unknown') {
             results.robots.crawlers[bot].status = 'allowed';
           }
         }
-
         const blockedBots = Object.values(results.robots.crawlers).filter(c => c.status === 'blocked').length;
         if (blockedBots === 0) {
           results.robots.score = 25;
@@ -104,7 +99,7 @@ export async function POST(request) {
       results.robots.status = 'bad';
     }
 
-    // --- 2. llms.txt ---
+    // --- llms.txt ---
     try {
       const res = await fetchWithTimeout(`${baseUrl}/llms.txt`);
       if (res.ok) {
@@ -121,7 +116,7 @@ export async function POST(request) {
       results.llms = { score: 5, details: 'llms.txt fetch error', status: 'bad' };
     }
 
-    // --- 3. sitemap.xml ---
+    // --- sitemap.xml ---
     try {
       const res = await fetchWithTimeout(`${baseUrl}/sitemap.xml`);
       if (res.ok) {
@@ -133,7 +128,7 @@ export async function POST(request) {
       results.sitemap = { score: 5, details: 'sitemap.xml fetch error', status: 'bad' };
     }
 
-    // --- 4. HTML main page: title, meta, open graph, schema ---
+    // --- HTML main page (title, meta, open graph, schema, entity analysis) ---
     try {
       const res = await fetchWithTimeout(url);
       if (res.ok) {
@@ -163,6 +158,39 @@ export async function POST(request) {
           details: schemaMatch ? 'Schema.org markup found' : 'No JSON-LD schema detected',
           status: schemaMatch ? 'good' : 'bad',
         };
+
+        // --- Entity Analysis ---
+        try {
+          const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
+          if (OPENROUTER_API_KEY) {
+            const bodyText = html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').slice(0, 2000);
+            const entityPrompt = `Extract the 5 most important entities (people, companies, products, technologies, concepts) from this page content. For each entity, assess its authority and relevance for AI search engines (Low/Medium/High). Return ONLY a JSON array like [{"entity": "...", "authority": "High", "relevance": "High"}]. Content: ${bodyText}`;
+
+            const aiRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
+                'HTTP-Referer': process.env.NEXT_PUBLIC_SITE_URL || 'https://geoscan-a.vercel.app',
+                'X-Title': 'GeoScan',
+              },
+              body: JSON.stringify({
+                model: 'openrouter/free',
+                messages: [{ role: 'user', content: entityPrompt }],
+                max_tokens: 400,
+              }),
+            });
+
+            if (aiRes.ok) {
+              const aiData = await aiRes.json();
+              const content = aiData.choices?.[0]?.message?.content || '[]';
+              const jsonMatch = content.match(/\[[\s\S]*\]/);
+              if (jsonMatch) {
+                results.entityAnalysis = JSON.parse(jsonMatch[0]);
+              }
+            }
+          }
+        } catch {}
       } else {
         results.meta = { score: 5, details: 'Page not accessible', status: 'bad' };
         results.openGraph = { score: 5, details: 'Page not accessible', status: 'bad' };
@@ -174,14 +202,9 @@ export async function POST(request) {
       results.schema = { score: 5, details: 'Main page fetch error', status: 'bad' };
     }
 
-    // --- Total score (max 100) ---
     results.totalScore =
-      results.robots.score +
-      results.llms.score +
-      results.sitemap.score +
-      results.meta.score +
-      results.openGraph.score +
-      results.schema.score;
+      results.robots.score + results.llms.score + results.sitemap.score +
+      results.meta.score + results.openGraph.score + results.schema.score;
 
     return NextResponse.json(results);
   } catch (err) {
