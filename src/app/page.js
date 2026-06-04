@@ -7,7 +7,7 @@ import {
   Scan, Zap, Shield, FileText, FolderTree, Tag, Share2, Code,
   History, LogOut, Mail, ChevronRight, Check, AlertTriangle, X,
   MapPin, ArrowRight, Loader2, MessageSquare, Wand2, Copy, Download, Swords,
-  BookOpen, ChevronDown, BarChart3, Info, Globe
+  BookOpen, ChevronDown, BarChart3, Info, Globe, TrendingUp
 } from 'lucide-react';
 
 const translations = {
@@ -15,27 +15,29 @@ const translations = {
     hero: { title: 'Is Your Site Ready for', subtitle: 'AI Search?', description: 'AI search engines like ChatGPT and Perplexity now drive 30% of organic traffic. Most sites are completely invisible to them. Find out where you stand in 60 seconds.', freeScans: 'Free for everyone', fast: 'Fast', pro: 'AI-powered insights' },
     scan: { placeholder: 'Enter URL (e.g. yoursite.com)', button: 'Scan', scanning: 'Scanning...' },
     login: { placeholder: 'you@example.com', button: 'Sign In', sending: 'Sending...', checkEmail: 'Check your email! We sent a magic link.' },
-    results: { geoScore: 'Your GEO Score', average: 'Average in your niche (SaaS): 65%', improvements: 'Improvements needed', onTrack: 'You are on the right track!', exportPdf: 'Export PDF', share: 'Share', aiAssistant: 'AI Assistant', generateFixes: 'Generate Fixes (AI)', compareCompetitors: 'Compare with competitors', shareForScans: 'Share & Get +3 Scans' },
+    results: { geoScore: 'Your GEO Score', average: 'Average in your niche (SaaS): 65%', improvements: 'Improvements needed', onTrack: 'You are on the right track!', exportPdf: 'Export PDF', share: 'Share', aiAssistant: 'AI Assistant', generateFixes: 'Generate Fixes (AI)', compareCompetitors: 'Compare with competitors', shareForScans: 'Share & Get +3 Scans', competitorMonitor: 'Competitor Monitor' },
     history: { title: 'Recent Scans', noScans: 'No scans yet.' },
     aiAssistant: { title: 'AI Assistant', placeholder: 'Ask about your report...', send: 'Send', thinking: 'Thinking...' },
     aiFixes: { title: 'AI-Generated Fixes', copy: 'Copy', download: 'Download', close: 'Close' },
     compare: { title: 'Compare with competitors', description: 'Enter up to three competitor URLs to compare with your site.', placeholder: 'Competitor {number}', compareButton: 'Compare', close: 'Close', module: 'Module', yourSite: 'Your site', geoScore: 'GEO Score' },
     liveExample: { title: 'Live example: stripe.com', updated: 'Updated daily', geoScore: 'GEO Score', callToAction: 'Want to know your GEO Score? Enter URL above and click «Scan»' },
     shareBonus: { thanks: 'Thanks for sharing! +3 free scans added to your account.' },
-    drillDown: { title: 'GEO Score Breakdown', howItWorks: 'Each module contributes to your total GEO Score (max 100). Click on any module to see details and recommended actions with estimated impact.', close: 'Close', impact: 'Estimated impact', entityTitle: 'Entity Analysis' }
+    drillDown: { title: 'GEO Score Breakdown', howItWorks: 'Each module contributes to your total GEO Score (max 100). Click on any module to see details and recommended actions with estimated impact.', close: 'Close', impact: 'Estimated impact', entityTitle: 'Entity Analysis' },
+    monitor: { title: 'Competitor Monitor', description: 'Enter up to 3 competitor URLs to track changes in their scores.', check: 'Check Now', close: 'Close', currentScores: 'Current Scores', error: 'Error', needLogin: 'Please log in' }
   },
   ru: {
     hero: { title: 'Готов ли ваш сайт к', subtitle: 'AI-поиску?', description: 'ChatGPT, Perplexity и другие AI-поисковики уже дают 30% трафика. Большинство сайтов для них невидимы. Узнайте, где вы находитесь, за 60 секунд.', freeScans: 'Бесплатно для всех', fast: 'Быстро', pro: 'AI-инструмент нового поколения' },
     scan: { placeholder: 'Введите URL (например, yoursite.com)', button: 'Сканировать', scanning: 'Сканируем...' },
     login: { placeholder: 'you@example.com', button: 'Войти', sending: 'Отправка...', checkEmail: 'Проверьте почту! Мы отправили волшебную ссылку.' },
-    results: { geoScore: 'Ваш GEO Score', average: 'Средний показатель в вашей нише (SaaS): 65%', improvements: 'Требуются улучшения', onTrack: 'Вы на правильном пути!', exportPdf: 'Экспорт PDF', share: 'Поделиться', aiAssistant: 'AI-помощник', generateFixes: 'Сгенерировать исправления (AI)', compareCompetitors: 'Сравнить с конкурентами', shareForScans: 'Поделись и получи +3 скана' },
+    results: { geoScore: 'Ваш GEO Score', average: 'Средний показатель в вашей нише (SaaS): 65%', improvements: 'Требуются улучшения', onTrack: 'Вы на правильном пути!', exportPdf: 'Экспорт PDF', share: 'Поделиться', aiAssistant: 'AI-помощник', generateFixes: 'Сгенерировать исправления (AI)', compareCompetitors: 'Сравнить с конкурентами', shareForScans: 'Поделись и получи +3 скана', competitorMonitor: 'Мониторинг конкурентов' },
     history: { title: 'Недавние сканирования', noScans: 'Пока нет сканирований.' },
     aiAssistant: { title: 'AI-помощник', placeholder: 'Спросите о вашем отчёте...', send: 'Отправить', thinking: 'Думаю...' },
     aiFixes: { title: 'AI-сгенерированные исправления', copy: 'Копировать', download: 'Скачать', close: 'Закрыть' },
     compare: { title: 'Сравнение с конкурентами', description: 'Введите до трёх URL конкурентов, чтобы сравнить их с вашим сайтом.', placeholder: 'Конкурент {number}', compareButton: 'Сравнить', close: 'Закрыть', module: 'Модуль', yourSite: 'Ваш сайт', geoScore: 'GEO Score' },
     liveExample: { title: 'Живой пример: stripe.com', updated: 'Обновляется ежедневно', geoScore: 'GEO Score', callToAction: 'Хотите узнать свой GEO Score? Введите URL выше и нажмите «Сканировать»' },
     shareBonus: { thanks: 'Спасибо! +3 бесплатных скана добавлено.' },
-    drillDown: { title: 'Разбор GEO Score', howItWorks: 'Каждый модуль вносит вклад в общий GEO Score (макс. 100). Нажмите на любой модуль, чтобы увидеть детали и рекомендуемые действия с прогнозируемым эффектом.', close: 'Закрыть', impact: 'Прогнозируемый эффект', entityTitle: 'Анализ сущностей' }
+    drillDown: { title: 'Разбор GEO Score', howItWorks: 'Каждый модуль вносит вклад в общий GEO Score (макс. 100). Нажмите на любой модуль, чтобы увидеть детали и рекомендуемые действия с прогнозируемым эффектом.', close: 'Закрыть', impact: 'Прогнозируемый эффект', entityTitle: 'Анализ сущностей' },
+    monitor: { title: 'Мониторинг конкурентов', description: 'Введите до 3 URL конкурентов, чтобы отслеживать изменения их показателей.', check: 'Проверить', close: 'Закрыть', currentScores: 'Текущие показатели', error: 'Ошибка', needLogin: 'Необходимо войти' }
   }
 };
 
@@ -66,6 +68,10 @@ export default function Home() {
   const [sharedUrls, setSharedUrls] = useState({});
   const [drillDownOpen, setDrillDownOpen] = useState(false);
   const [selectedModule, setSelectedModule] = useState(null);
+  const [monitorOpen, setMonitorOpen] = useState(false);
+  const [monitorUrls, setMonitorUrls] = useState(['', '', '']);
+  const [monitorResults, setMonitorResults] = useState(null);
+  const [monitorLoading, setMonitorLoading] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem('locale');
@@ -160,12 +166,95 @@ export default function Home() {
     } catch (err) { setError(err.message); } finally { setLoading(false); }
   };
 
-  const handleExportPDF = () => { /* без изменений, код PDF отчета остается прежним */ };
-  const handleShare = () => { /* без изменений */ };
-  const handleShareForScans = () => { /* без изменений */ };
-  const handleChatSend = async () => { /* без изменений */ };
-  const handleGenerateFixes = async () => { /* без изменений */ };
-  const handleCompare = async () => { /* без изменений */ };
+  const handleExportPDF = () => {
+    if (!results) return;
+    const doc = new jsPDF();
+    const primaryColor = '#1e3a5f'; const accentColor = '#10b981'; const darkText = '#0f172a'; const mediumText = '#475569';
+    doc.setFillColor(primaryColor); doc.rect(0, 0, 210, 35, 'F'); doc.setFont('times', 'bold'); doc.setFontSize(24); doc.setTextColor('#ffffff'); doc.text('GeoScan', 15, 22); doc.setFontSize(11); doc.setFont('times', 'normal'); doc.text('AI Visibility Report', 15, 30);
+    doc.setFontSize(10); doc.setTextColor(darkText); doc.text(`URL: ${url}`, 15, 42); doc.text(`Date: ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`, 15, 49);
+    doc.setFillColor('#ffffff'); doc.setDrawColor('#cbd5e1'); doc.roundedRect(15, 56, 180, 22, 3, 3, 'FD'); doc.setFont('times', 'bold'); doc.setFontSize(14); doc.setTextColor(primaryColor); doc.text(`GEO Score: ${results.totalScore}/100`, 20, 70); doc.setFillColor('#e2e8f0'); doc.roundedRect(100, 63, 80, 6, 3, 3, 'F'); doc.setFillColor(accentColor); const barW = (results.totalScore / 100) * 80; if (barW > 0) doc.roundedRect(100, 63, barW, 6, 3, 3, 'F');
+    let y = 88; doc.setFont('times', 'bold'); doc.setFontSize(12); doc.setTextColor(primaryColor); doc.text('Detailed Results', 15, y); y += 6;
+    const tableTop = y; const col1X = 16; const col2X = 90; const col3X = 120; const col4X = 145; const rowHeight = 12; const tableWidth = 180;
+    doc.setFillColor(primaryColor); doc.rect(15, y, tableWidth, rowHeight, 'F'); doc.setFont('times', 'bold'); doc.setFontSize(9); doc.setTextColor('#ffffff'); doc.text('Module', col1X, y + 8); doc.text('Score', col2X, y + 8); doc.text('Status', col3X, y + 8); doc.text('Comment', col4X, y + 8); y += rowHeight;
+    const modules = [
+      { label: 'robots.txt', data: results.robots, max: 25 }, { label: 'llms.txt', data: results.llms, max: 20 }, { label: 'sitemap.xml', data: results.sitemap, max: 15 },
+      { label: 'Meta Title', data: results.meta, max: 10 }, { label: 'Open Graph', data: results.openGraph, max: 15 }, { label: 'Schema.org', data: results.schema, max: 15 },
+    ];
+    modules.forEach((mod, index) => {
+      if (index % 2 === 0) doc.setFillColor('#f8fafc'); else doc.setFillColor('#ffffff');
+      doc.rect(15, y, tableWidth, rowHeight, 'F'); doc.setFont('times', 'normal'); doc.setFontSize(9); doc.setTextColor(darkText); doc.text(mod.label, col1X, y + 8); doc.setFont('times', 'bold'); doc.setTextColor(accentColor); doc.text(`${mod.data.score}/${mod.max}`, col2X, y + 8);
+      const statusColor = statusPdfColors[mod.data.status] || '#333'; doc.setFillColor(statusColor); doc.circle(col3X + 4, y + 5, 3, 'F'); doc.setFont('times', 'normal'); doc.setTextColor(mediumText); const commentLines = doc.splitTextToSize(mod.data.details, 50); doc.text(commentLines, col4X, y + 8); y += rowHeight; if (commentLines.length > 1) y += (commentLines.length - 1) * 5;
+    });
+    doc.setDrawColor('#cbd5e1'); doc.rect(15, tableTop, tableWidth, y - tableTop);
+    y += 6; doc.setFont('times', 'bold'); doc.setFontSize(12); doc.setTextColor(primaryColor); doc.text('Recommendations', 15, y); y += 6; doc.setFont('times', 'normal'); doc.setFontSize(10); doc.setTextColor(mediumText);
+    const advice = results.totalScore < 50 ? 'Critical improvements needed. Start by unblocking AI bots and adding structured data.' : 'Your site is on the right track. Consider adding llms.txt and optimizing Open Graph tags.';
+    const lines = doc.splitTextToSize(advice, 170); doc.text(lines, 20, y);
+    doc.setFontSize(8); doc.setTextColor('#94a3b8'); doc.text('Generated by GeoScan • geoscan-a.vercel.app', 15, 285);
+    doc.save(`geoscan-report-${new Date().toISOString().slice(0, 10)}.pdf`);
+  };
+
+  const handleShare = () => {
+    if (!results) return;
+    const text = locale === 'ru' ? `Я только что проверил свой сайт в GeoScan и получил GEO Score ${results.totalScore}/100. Узнай, готов ли твой сайт к AI-поиску: https://geoscan-a.vercel.app` : `I just checked my site on GeoScan and got a GEO Score of ${results.totalScore}/100. Check yours for free: https://geoscan-a.vercel.app`;
+    if (navigator.share) navigator.share({ title: 'GeoScan Report', text }); else window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+  };
+
+  const handleShareForScans = () => {
+    if (!results || sharedUrls[url]) return;
+    const text = locale === 'ru' ? `Я только что проверил свой сайт в GeoScan и получил GEO Score ${results.totalScore}/100. Проверь свой бесплатно: https://geoscan-a.vercel.app` : `I just checked my site on GeoScan and got a GEO Score of ${results.totalScore}/100. Check yours for free: https://geoscan-a.vercel.app`;
+    if (navigator.share) { navigator.share({ title: 'GeoScan Report', text }).catch(() => {}); } else { window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank'); }
+    setSharedUrls(prev => ({ ...prev, [url]: true }));
+    alert(t.shareBonus.thanks);
+  };
+
+  const handleChatSend = async () => {
+    if (!chatInput.trim() || !results) return;
+    const userMessage = chatInput.trim(); setChatMessages(prev => [...prev, { role: 'user', content: userMessage }]); setChatInput(''); setChatLoading(true);
+    try {
+      const res = await fetch('/api/ai-chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: userMessage, context: results }) });
+      const data = await res.json(); setChatMessages(prev => [...prev, { role: 'assistant', content: data.reply || data.error }]);
+    } catch (err) { setChatMessages(prev => [...prev, { role: 'assistant', content: 'Error: ' + err.message }]); } finally { setChatLoading(false); }
+  };
+
+  const handleGenerateFixes = async () => {
+    setFixesLoading(true);
+    try {
+      const res = await fetch('/api/ai-fixes', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url, results }) });
+      const data = await res.json(); setFixesData(data); setFixesOpen(true);
+    } catch (err) { alert('Error generating fixes: ' + err.message); } finally { setFixesLoading(false); }
+  };
+
+  const handleCompare = async () => {
+    const validUrls = competitors.filter(c => c.trim() !== ''); if (validUrls.length === 0) return;
+    setCompareLoading(true);
+    try {
+      const res = await fetch('/api/compare', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ urls: validUrls }) });
+      const data = await res.json(); setCompareResults(data.results);
+    } catch (err) { alert('Comparison failed: ' + err.message); } finally { setCompareLoading(false); }
+  };
+
+  const handleMonitorCompetitors = async () => {
+    const validUrls = monitorUrls.filter(u => u.trim() !== '');
+    if (validUrls.length === 0) return;
+    setMonitorLoading(true);
+    try {
+      const res = await fetch('/api/competitor-monitor', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ competitorUrls: validUrls }),
+      });
+      const data = await res.json();
+      if (data.error) {
+        alert(t.monitor.needLogin);
+      } else {
+        setMonitorResults(data.results);
+      }
+    } catch (err) {
+      alert('Error: ' + err.message);
+    } finally {
+      setMonitorLoading(false);
+    }
+  };
 
   const openDrillDown = (mod = null) => {
     setSelectedModule(mod);
@@ -298,6 +387,7 @@ export default function Home() {
                   <button onClick={(e) => { e.stopPropagation(); setChatOpen(true); }} className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl transition-colors duration-300 flex items-center gap-2"><MessageSquare className="w-4 h-4" /> {t.results.aiAssistant}</button>
                   <button onClick={(e) => { e.stopPropagation(); handleGenerateFixes(); }} disabled={fixesLoading} className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl transition-colors duration-300 flex items-center gap-2">{fixesLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}{t.results.generateFixes}</button>
                   <button onClick={(e) => { e.stopPropagation(); setCompareOpen(true); }} className="px-5 py-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl transition-colors duration-300 flex items-center gap-2"><Swords className="w-4 h-4" /> {t.results.compareCompetitors}</button>
+                  <button onClick={(e) => { e.stopPropagation(); setMonitorOpen(true); }} className="px-5 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl transition-colors duration-300 flex items-center gap-2"><TrendingUp className="w-4 h-4" /> {t.results.competitorMonitor}</button>
                 </div>
               </div>
             </div>
@@ -367,6 +457,44 @@ export default function Home() {
                       <tr className="border-t-2 border-slate-600"><td className="py-2 px-3 font-bold">{t.compare.geoScore}</td><td className="py-2 px-3 font-bold text-emerald-400">{results.totalScore}/100</td>{Object.entries(compareResults).map(([compUrl, compData]) => (<td key={compUrl} className="py-2 px-3 font-bold">{compData ? `${compData.totalScore}/100` : 'N/A'}</td>))}</tr>
                     </tbody>
                   </table>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+        {/* Competitor Monitor Modal */}
+        {monitorOpen && (
+          <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50" onClick={() => setMonitorOpen(false)}>
+            <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 w-full max-w-2xl max-h-[85vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+              <h3 className="text-xl font-bold mb-4 flex items-center gap-2"><TrendingUp className="w-6 h-6 text-cyan-400" /> {t.monitor.title}</h3>
+              <p className="text-sm text-slate-400 mb-4">{t.monitor.description}</p>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {monitorUrls.map((comp, i) => (
+                  <input key={i} type="url" placeholder={`${locale === 'ru' ? 'Конкурент' : 'Competitor'} ${i + 1}`} className="flex-1 min-w-[200px] px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white outline-none" value={comp} onChange={e => { const newUrls = [...monitorUrls]; newUrls[i] = e.target.value; setMonitorUrls(newUrls); }} />
+                ))}
+              </div>
+              <div className="flex gap-2 mb-6">
+                <button onClick={handleMonitorCompetitors} disabled={monitorLoading} className="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg transition-colors duration-300 disabled:opacity-50 flex items-center gap-2">{monitorLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <TrendingUp className="w-4 h-4" />}{t.monitor.check}</button>
+                <button onClick={() => setMonitorOpen(false)} className="px-4 py-2 bg-slate-600 rounded-lg">{t.monitor.close}</button>
+              </div>
+              {monitorResults && (
+                <div className="space-y-4">
+                  <h4 className="text-sm font-semibold text-slate-300">{t.monitor.currentScores}</h4>
+                  {Object.entries(monitorResults).map(([compUrl, data]) => (
+                    <div key={compUrl} className="p-3 bg-slate-900 rounded-lg">
+                      <p className="text-sm font-medium text-slate-200 mb-2">{compUrl}</p>
+                      {data.error ? (
+                        <p className="text-sm text-red-400">{data.error}</p>
+                      ) : (
+                        <div className="grid grid-cols-2 gap-2 text-sm">
+                          <div className="text-slate-400">GEO Score: <span className="text-emerald-400 font-bold">{data.totalScore}/100</span></div>
+                          <div className="text-slate-400">robots.txt: <span className="text-emerald-400">{data.robots?.score || 0}</span></div>
+                          <div className="text-slate-400">llms.txt: <span className="text-emerald-400">{data.llms?.score || 0}</span></div>
+                          <div className="text-slate-400">Schema: <span className="text-emerald-400">{data.schema?.score || 0}</span></div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
