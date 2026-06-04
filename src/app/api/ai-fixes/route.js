@@ -56,7 +56,7 @@ Do not include any markdown or extra text. The response must be pure JSON.`;
       body: JSON.stringify({
         model: 'openrouter/free',
         messages: [{ role: 'user', content: prompt }],
-        max_tokens: 2500, // увеличенный лимит для подробных ответов
+        max_tokens: 2500,
       }),
     });
 

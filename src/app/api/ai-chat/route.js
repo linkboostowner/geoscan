@@ -37,7 +37,7 @@ Keep answers concise but actionable. Use the specific scores and details from th
           { role: 'system', content: systemPrompt },
           { role: 'user', content: message },
         ],
-        max_tokens: 1200, // немного увеличил, чтобы вместить развернутые ответы
+        max_tokens: 1200,
       }),
     });
 
