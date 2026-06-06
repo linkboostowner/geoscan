@@ -12,6 +12,7 @@ export default function Dashboard() {
   const [newEmail, setNewEmail] = useState('');
   const [newFreq, setNewFreq] = useState('weekly');
   const [gscMetrics, setGscMetrics] = useState(null);
+  const [yandexMetrics, setYandexMetrics] = useState(null);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -20,6 +21,7 @@ export default function Dashboard() {
         fetchHistory(session.user.id);
         fetchScheduled(session.user.id);
         fetchGscMetrics();
+        fetchYandexMetrics();
       }
     });
   }, []);
@@ -40,6 +42,16 @@ export default function Dashboard() {
       if (res.ok) {
         const data = await res.json();
         if (data.clicks !== undefined) setGscMetrics(data);
+      }
+    } catch {}
+  };
+
+  const fetchYandexMetrics = async () => {
+    try {
+      const res = await fetch('/api/yandex-webmaster');
+      if (res.ok) {
+        const data = await res.json();
+        if (data.clicks !== undefined) setYandexMetrics(data);
       }
     } catch {}
   };
@@ -91,6 +103,7 @@ export default function Dashboard() {
           <h1 className="text-3xl font-bold">Dashboard</h1>
           <div className="flex items-center gap-2">
             <a href="/gsc-setup" className="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl text-sm text-slate-300 transition-colors flex items-center gap-1"><Key className="w-4 h-4" /> GSC Setup</a>
+            <a href="/yandex-setup" className="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl text-sm text-slate-300 transition-colors flex items-center gap-1"><Key className="w-4 h-4" /> Yandex Setup</a>
             <a href="/" className="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl text-sm text-slate-300 transition-colors">
               Back to Scanner
             </a>
@@ -122,22 +135,41 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* GSC Metrics */}
-        {gscMetrics ? (
-          <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6">
-            <h2 className="text-xl font-semibold mb-4">Google Search Console (30 days)</h2>
-            <div className="grid grid-cols-3 gap-4 text-center">
-              <div><p className="text-sm text-slate-400">Clicks</p><p className="text-3xl font-bold text-blue-400">{gscMetrics.clicks}</p></div>
-              <div><p className="text-sm text-slate-400">Impressions</p><p className="text-3xl font-bold text-blue-400">{gscMetrics.impressions}</p></div>
-              <div><p className="text-sm text-slate-400">Avg. Position</p><p className="text-3xl font-bold text-blue-400">{gscMetrics.avgPosition}</p></div>
+        {/* Search Console Metrics */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {gscMetrics ? (
+            <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6">
+              <h2 className="text-xl font-semibold mb-4">Google Search Console (30 days)</h2>
+              <div className="grid grid-cols-3 gap-4 text-center">
+                <div><p className="text-sm text-slate-400">Clicks</p><p className="text-3xl font-bold text-blue-400">{gscMetrics.clicks}</p></div>
+                <div><p className="text-sm text-slate-400">Impressions</p><p className="text-3xl font-bold text-blue-400">{gscMetrics.impressions}</p></div>
+                <div><p className="text-sm text-slate-400">Avg. Position</p><p className="text-3xl font-bold text-blue-400">{gscMetrics.avgPosition}</p></div>
+              </div>
             </div>
-          </div>
-        ) : (
-          <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 text-center">
-            <p className="text-slate-400">Google Search Console not configured.</p>
-            <a href="/gsc-setup" className="text-emerald-400 hover:underline">Set up GSC</a>
-          </div>
-        )}
+          ) : (
+            <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 text-center">
+              <p className="text-slate-400">Google Search Console not configured.</p>
+              <a href="/gsc-setup" className="text-emerald-400 hover:underline">Set up GSC</a>
+            </div>
+          )}
+          
+          {yandexMetrics ? (
+            <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6">
+              <h2 className="text-xl font-semibold mb-4">Yandex Webmaster (30 days)</h2>
+              <div className="grid grid-cols-3 gap-4 text-center">
+                <div><p className="text-sm text-slate-400">Clicks</p><p className="text-3xl font-bold text-red-400">{yandexMetrics.clicks}</p></div>
+                <div><p className="text-sm text-slate-400">Impressions</p><p className="text-3xl font-bold text-red-400">{yandexMetrics.impressions}</p></div>
+                <div><p className="text-sm text-slate-400">Avg. Position</p><p className="text-3xl font-bold text-red-400">{yandexMetrics.avgPosition}</p></div>
+              </div>
+              <p className="text-xs text-slate-400 mt-2 text-center">{yandexMetrics.siteUrl}</p>
+            </div>
+          ) : (
+            <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 text-center">
+              <p className="text-slate-400">Yandex Webmaster not configured.</p>
+              <a href="/yandex-setup" className="text-emerald-400 hover:underline">Set up Yandex</a>
+            </div>
+          )}
+        </div>
 
         {/* Schedule Form */}
         <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6">
