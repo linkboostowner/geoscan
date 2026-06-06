@@ -7,7 +7,7 @@ import {
   Scan, Zap, Shield, FileText, FolderTree, Tag, Share2, Code,
   History, LogOut, Mail, ChevronRight, Check, AlertTriangle, X,
   MapPin, ArrowRight, Loader2, MessageSquare, Wand2, Copy, Download, Swords,
-  BookOpen, ChevronDown, BarChart3, Info, Globe, TrendingUp
+  BookOpen, ChevronDown, BarChart3, Info, Globe, TrendingUp, PenTool
 } from 'lucide-react';
 
 const translations = {
@@ -15,7 +15,7 @@ const translations = {
     hero: { title: 'Is Your Site Ready for', subtitle: 'AI Search?', description: 'AI search engines like ChatGPT and Perplexity now drive 30% of organic traffic. Most sites are completely invisible to them. Find out where you stand in 60 seconds.', freeScans: 'Free for everyone', fast: 'Fast', pro: 'AI-powered insights' },
     scan: { placeholder: 'Enter URL (e.g. yoursite.com)', button: 'Scan', scanning: 'Scanning...' },
     login: { placeholder: 'you@example.com', button: 'Sign In', sending: 'Sending...', checkEmail: 'Check your email! We sent a magic link.' },
-    results: { geoScore: 'Your GEO Score', average: 'Average in your niche (SaaS): 65%', improvements: 'Improvements needed', onTrack: 'You are on the right track!', exportPdf: 'Export PDF', share: 'Share', aiAssistant: 'AI Assistant', generateFixes: 'Generate Fixes (AI)', compareCompetitors: 'Compare with competitors', shareForScans: 'Share & Get +3 Scans', competitorMonitor: 'Competitor Monitor' },
+    results: { geoScore: 'Your GEO Score', average: 'Average in your niche (SaaS): 65%', improvements: 'Improvements needed', onTrack: 'You are on the right track!', exportPdf: 'Export PDF', share: 'Share', aiAssistant: 'AI Assistant', generateFixes: 'Generate Fixes (AI)', compareCompetitors: 'Compare with competitors', shareForScans: 'Share & Get +3 Scans', competitorMonitor: 'Competitor Monitor', generateContent: 'Generate Content for AI' },
     history: { title: 'Recent Scans', noScans: 'No scans yet.' },
     aiAssistant: { title: 'AI Assistant', placeholder: 'Ask about your report...', send: 'Send', thinking: 'Thinking...' },
     aiFixes: { title: 'AI-Generated Fixes', copy: 'Copy', download: 'Download', close: 'Close' },
@@ -23,13 +23,14 @@ const translations = {
     liveExample: { title: 'Live example: stripe.com', updated: 'Updated daily', geoScore: 'GEO Score', callToAction: 'Want to know your GEO Score? Enter URL above and click «Scan»' },
     shareBonus: { thanks: 'Thanks for sharing! +3 free scans added to your account.' },
     drillDown: { title: 'GEO Score Breakdown', howItWorks: 'Each module contributes to your total GEO Score (max 100). Click on any module to see details and recommended actions with estimated impact.', close: 'Close', impact: 'Estimated impact', entityTitle: 'Entity Analysis' },
-    monitor: { title: 'Competitor Monitor', description: 'Enter up to 3 competitor URLs to track changes in their scores.', check: 'Check Now', close: 'Close', currentScores: 'Current Scores', error: 'Error', needLogin: 'Please log in' }
+    monitor: { title: 'Competitor Monitor', description: 'Enter up to 3 competitor URLs to track changes in their scores.', check: 'Check Now', close: 'Close', currentScores: 'Current Scores', error: 'Error', needLogin: 'Please log in' },
+    contentGen: { title: 'Generate AI-Optimized Content', description: 'Select content types to generate blocks that AI search engines will love to cite.', types: { faq: 'FAQ Section', definitions: 'Key Definitions', summary: 'Executive Summary', lists: 'Structured Lists' }, generate: 'Generate Content', close: 'Close', copy: 'Copy', copied: 'Copied!', impact: 'Impact' }
   },
   ru: {
     hero: { title: 'Готов ли ваш сайт к', subtitle: 'AI-поиску?', description: 'ChatGPT, Perplexity и другие AI-поисковики уже дают 30% трафика. Большинство сайтов для них невидимы. Узнайте, где вы находитесь, за 60 секунд.', freeScans: 'Бесплатно для всех', fast: 'Быстро', pro: 'AI-инструмент нового поколения' },
     scan: { placeholder: 'Введите URL (например, yoursite.com)', button: 'Сканировать', scanning: 'Сканируем...' },
     login: { placeholder: 'you@example.com', button: 'Войти', sending: 'Отправка...', checkEmail: 'Проверьте почту! Мы отправили волшебную ссылку.' },
-    results: { geoScore: 'Ваш GEO Score', average: 'Средний показатель в вашей нише (SaaS): 65%', improvements: 'Требуются улучшения', onTrack: 'Вы на правильном пути!', exportPdf: 'Экспорт PDF', share: 'Поделиться', aiAssistant: 'AI-помощник', generateFixes: 'Сгенерировать исправления (AI)', compareCompetitors: 'Сравнить с конкурентами', shareForScans: 'Поделись и получи +3 скана', competitorMonitor: 'Мониторинг конкурентов' },
+    results: { geoScore: 'Ваш GEO Score', average: 'Средний показатель в вашей нише (SaaS): 65%', improvements: 'Требуются улучшения', onTrack: 'Вы на правильном пути!', exportPdf: 'Экспорт PDF', share: 'Поделиться', aiAssistant: 'AI-помощник', generateFixes: 'Сгенерировать исправления (AI)', compareCompetitors: 'Сравнить с конкурентами', shareForScans: 'Поделись и получи +3 скана', competitorMonitor: 'Мониторинг конкурентов', generateContent: 'Сгенерировать контент для AI' },
     history: { title: 'Недавние сканирования', noScans: 'Пока нет сканирований.' },
     aiAssistant: { title: 'AI-помощник', placeholder: 'Спросите о вашем отчёте...', send: 'Отправить', thinking: 'Думаю...' },
     aiFixes: { title: 'AI-сгенерированные исправления', copy: 'Копировать', download: 'Скачать', close: 'Закрыть' },
@@ -37,7 +38,8 @@ const translations = {
     liveExample: { title: 'Живой пример: stripe.com', updated: 'Обновляется ежедневно', geoScore: 'GEO Score', callToAction: 'Хотите узнать свой GEO Score? Введите URL выше и нажмите «Сканировать»' },
     shareBonus: { thanks: 'Спасибо! +3 бесплатных скана добавлено.' },
     drillDown: { title: 'Разбор GEO Score', howItWorks: 'Каждый модуль вносит вклад в общий GEO Score (макс. 100). Нажмите на любой модуль, чтобы увидеть детали и рекомендуемые действия с прогнозируемым эффектом.', close: 'Закрыть', impact: 'Прогнозируемый эффект', entityTitle: 'Анализ сущностей' },
-    monitor: { title: 'Мониторинг конкурентов', description: 'Введите до 3 URL конкурентов, чтобы отслеживать изменения их показателей.', check: 'Проверить', close: 'Закрыть', currentScores: 'Текущие показатели', error: 'Ошибка', needLogin: 'Необходимо войти' }
+    monitor: { title: 'Мониторинг конкурентов', description: 'Введите до 3 URL конкурентов, чтобы отслеживать изменения их показателей.', check: 'Проверить', close: 'Закрыть', currentScores: 'Текущие показатели', error: 'Ошибка', needLogin: 'Необходимо войти' },
+    contentGen: { title: 'Сгенерировать AI-оптимизированный контент', description: 'Выберите типы контента для генерации блоков, которые AI-поисковики будут охотно цитировать.', types: { faq: 'Раздел FAQ', definitions: 'Ключевые определения', summary: 'Саммари', lists: 'Структурированные списки' }, generate: 'Сгенерировать', close: 'Закрыть', copy: 'Копировать', copied: 'Скопировано!', impact: 'Влияние' }
   }
 };
 
@@ -72,6 +74,11 @@ export default function Home() {
   const [monitorUrls, setMonitorUrls] = useState(['', '', '']);
   const [monitorResults, setMonitorResults] = useState(null);
   const [monitorLoading, setMonitorLoading] = useState(false);
+  // Content generation states
+  const [contentGenOpen, setContentGenOpen] = useState(false);
+  const [contentTypes, setContentTypes] = useState(['faq', 'definitions']);
+  const [generatedContent, setGeneratedContent] = useState(null);
+  const [contentGenLoading, setContentGenLoading] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem('locale');
@@ -238,22 +245,24 @@ export default function Home() {
     if (validUrls.length === 0) return;
     setMonitorLoading(true);
     try {
-      const res = await fetch('/api/competitor-monitor', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ competitorUrls: validUrls }),
-      });
+      const res = await fetch('/api/competitor-monitor', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ competitorUrls: validUrls }) });
       const data = await res.json();
-      if (data.error) {
-        alert(t.monitor.needLogin);
-      } else {
-        setMonitorResults(data.results);
-      }
-    } catch (err) {
-      alert('Error: ' + err.message);
-    } finally {
-      setMonitorLoading(false);
-    }
+      if (data.error) { alert(t.monitor.needLogin); } else { setMonitorResults(data.results); }
+    } catch (err) { alert('Error: ' + err.message); } finally { setMonitorLoading(false); }
+  };
+
+  const handleGenerateContent = async () => {
+    if (!url || !results) return;
+    setContentGenLoading(true);
+    try {
+      const res = await fetch('/api/generate-content', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url, contentTypes }) });
+      const data = await res.json();
+      if (data.error) { alert(data.error); } else { setGeneratedContent(data.blocks); }
+    } catch (err) { alert('Error: ' + err.message); } finally { setContentGenLoading(false); }
+  };
+
+  const toggleContentType = (type) => {
+    setContentTypes(prev => prev.includes(type) ? prev.filter(t => t !== type) : [...prev, type]);
   };
 
   const openDrillDown = (mod = null) => {
@@ -388,6 +397,7 @@ export default function Home() {
                   <button onClick={(e) => { e.stopPropagation(); handleGenerateFixes(); }} disabled={fixesLoading} className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl transition-colors duration-300 flex items-center gap-2">{fixesLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}{t.results.generateFixes}</button>
                   <button onClick={(e) => { e.stopPropagation(); setCompareOpen(true); }} className="px-5 py-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl transition-colors duration-300 flex items-center gap-2"><Swords className="w-4 h-4" /> {t.results.compareCompetitors}</button>
                   <button onClick={(e) => { e.stopPropagation(); setMonitorOpen(true); }} className="px-5 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl transition-colors duration-300 flex items-center gap-2"><TrendingUp className="w-4 h-4" /> {t.results.competitorMonitor}</button>
+                  <button onClick={(e) => { e.stopPropagation(); setContentGenOpen(true); }} className="px-5 py-2.5 bg-fuchsia-600 hover:bg-fuchsia-500 text-white rounded-xl transition-colors duration-300 flex items-center gap-2"><PenTool className="w-4 h-4" /> {t.results.generateContent}</button>
                 </div>
               </div>
             </div>
@@ -493,6 +503,66 @@ export default function Home() {
                           <div className="text-slate-400">Schema: <span className="text-emerald-400">{data.schema?.score || 0}</span></div>
                         </div>
                       )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+        {/* Content Generation Modal */}
+        {contentGenOpen && (
+          <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50" onClick={() => setContentGenOpen(false)}>
+            <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 w-full max-w-2xl max-h-[85vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+              <h3 className="text-xl font-bold mb-4 flex items-center gap-2"><PenTool className="w-6 h-6 text-fuchsia-400" /> {t.contentGen.title}</h3>
+              <p className="text-sm text-slate-400 mb-4">{t.contentGen.description}</p>
+              
+              <div className="flex flex-wrap gap-2 mb-6">
+                {['faq', 'definitions', 'summary', 'lists'].map(type => (
+                  <button
+                    key={type}
+                    onClick={() => toggleContentType(type)}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      contentTypes.includes(type)
+                        ? 'bg-fuchsia-600 text-white'
+                        : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                    }`}
+                  >
+                    {t.contentGen.types[type]}
+                  </button>
+                ))}
+              </div>
+              
+              <div className="flex gap-2 mb-6">
+                <button
+                  onClick={handleGenerateContent}
+                  disabled={contentGenLoading || contentTypes.length === 0}
+                  className="px-4 py-2 bg-fuchsia-600 hover:bg-fuchsia-500 text-white rounded-lg transition-colors duration-300 disabled:opacity-50 flex items-center gap-2"
+                >
+                  {contentGenLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <PenTool className="w-4 h-4" />}
+                  {t.contentGen.generate}
+                </button>
+                <button onClick={() => setContentGenOpen(false)} className="px-4 py-2 bg-slate-600 rounded-lg">{t.contentGen.close}</button>
+              </div>
+              
+              {generatedContent && generatedContent.length > 0 && (
+                <div className="space-y-4">
+                  {generatedContent.map((block, idx) => (
+                    <div key={idx} className="p-4 bg-slate-900 rounded-lg">
+                      <div className="flex justify-between items-center mb-2">
+                        <h4 className="font-semibold text-fuchsia-400">{block.title}</h4>
+                        <button
+                          onClick={() => {
+                            navigator.clipboard.writeText(block.content);
+                            alert(t.contentGen.copied);
+                          }}
+                          className="px-3 py-1 bg-blue-600 rounded text-sm flex items-center gap-1"
+                        >
+                          <Copy className="w-3 h-3" /> {t.contentGen.copy}
+                        </button>
+                      </div>
+                      <div className="text-sm text-slate-300 mb-2" dangerouslySetInnerHTML={{ __html: block.content }} />
+                      <p className="text-xs text-emerald-400 mt-2">{t.contentGen.impact}: {block.impact}</p>
                     </div>
                   ))}
                 </div>
