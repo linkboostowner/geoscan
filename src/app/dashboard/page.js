@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabaseClient';
-import { BarChart3, TrendingUp, TrendingDown, Activity, ArrowRight, Plus, Trash2, Calendar } from 'lucide-react';
+import { BarChart3, TrendingUp, TrendingDown, Activity, ArrowRight, Plus, Trash2, Calendar, Key } from 'lucide-react';
 
 export default function Dashboard() {
   const [session, setSession] = useState(null);
@@ -11,6 +11,7 @@ export default function Dashboard() {
   const [newUrl, setNewUrl] = useState('');
   const [newEmail, setNewEmail] = useState('');
   const [newFreq, setNewFreq] = useState('weekly');
+  const [gscMetrics, setGscMetrics] = useState(null);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -18,6 +19,7 @@ export default function Dashboard() {
       if (session) {
         fetchHistory(session.user.id);
         fetchScheduled(session.user.id);
+        fetchGscMetrics();
       }
     });
   }, []);
@@ -30,6 +32,16 @@ export default function Dashboard() {
   const fetchScheduled = async (userId) => {
     const { data } = await supabase.from('scheduled_reports').select('*').eq('user_id', userId).order('created_at', { ascending: false });
     if (data) setScheduled(data);
+  };
+
+  const fetchGscMetrics = async () => {
+    try {
+      const res = await fetch('/api/gsc-data');
+      if (res.ok) {
+        const data = await res.json();
+        if (data.clicks !== undefined) setGscMetrics(data);
+      }
+    } catch {}
   };
 
   const handleAddSchedule = async () => {
@@ -77,9 +89,12 @@ export default function Dashboard() {
       <div className="max-w-5xl mx-auto space-y-8">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold">Dashboard</h1>
-          <a href="/" className="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl text-sm text-slate-300 transition-colors">
-            Back to Scanner
-          </a>
+          <div className="flex items-center gap-2">
+            <a href="/gsc-setup" className="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl text-sm text-slate-300 transition-colors flex items-center gap-1"><Key className="w-4 h-4" /> GSC Setup</a>
+            <a href="/" className="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl text-sm text-slate-300 transition-colors">
+              Back to Scanner
+            </a>
+          </div>
         </div>
 
         {/* Stats Grid */}
@@ -106,6 +121,23 @@ export default function Dashboard() {
             <p className="text-3xl font-bold text-emerald-400">{scheduled.length}</p>
           </div>
         </div>
+
+        {/* GSC Metrics */}
+        {gscMetrics ? (
+          <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6">
+            <h2 className="text-xl font-semibold mb-4">Google Search Console (30 days)</h2>
+            <div className="grid grid-cols-3 gap-4 text-center">
+              <div><p className="text-sm text-slate-400">Clicks</p><p className="text-3xl font-bold text-blue-400">{gscMetrics.clicks}</p></div>
+              <div><p className="text-sm text-slate-400">Impressions</p><p className="text-3xl font-bold text-blue-400">{gscMetrics.impressions}</p></div>
+              <div><p className="text-sm text-slate-400">Avg. Position</p><p className="text-3xl font-bold text-blue-400">{gscMetrics.avgPosition}</p></div>
+            </div>
+          </div>
+        ) : (
+          <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 text-center">
+            <p className="text-slate-400">Google Search Console not configured.</p>
+            <a href="/gsc-setup" className="text-emerald-400 hover:underline">Set up GSC</a>
+          </div>
+        )}
 
         {/* Schedule Form */}
         <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6">
